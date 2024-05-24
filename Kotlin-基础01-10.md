@@ -7,7 +7,7 @@
 
 ![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/be4980ac-11f2-4cdf-9cdf-8ea0411b3f38)
 
-### 3. 字符串模板 引用 a 使用 $a 或者 ${a}
+### 3. 字符串模板 引用 a 使用 `$a` 或者 `${a}`
 
 ![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/a9a64d47-8a15-484b-94c6-1c7ddb6bfb72)
 
