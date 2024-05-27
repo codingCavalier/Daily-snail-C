@@ -18,7 +18,7 @@
 ![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/56eff845-53ee-4175-afc7-0e0780259dba)
 ![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/5152e8ae-6380-45c1-a985-f7356428d4a1)
 
-### 如何实现优雅的DSL
+#### 如何实现优雅的DSL
 
 - 使用带有尾 lambda 的高阶函数实现大括号的层级调用
 - 为 lambda 添加 Receiver，通过 this 传递上下文
@@ -27,3 +27,10 @@
 - 使用 @DslMarker 限制 DSL 作用域，避免出错
 - 使用 Context Receivers 传递多个上下文，DSL 更聪明（非正式语法，未来有变动的可能）
 - 使用 inline 提升性能，同时使用 @PublishedApi 避免不必要的代码暴露（inline 要求调用的方法必须是 public 的）
+
+### 22. 泛型函数 generic function
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/1ff2f6ca-55b8-4373-835f-68da543a61cf
+
+#### 泛型约束
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/5bfac443-35ea-4f46-92cd-34cafafd918e)
+
