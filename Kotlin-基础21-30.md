@@ -1,5 +1,5 @@
 
-### 1. DSL 全称是 Domain Specific Language，即领域特定语言。顾名思义 DSL 是用来专门解决某一特定问题的语言，比如我们常见的 SQL 或者正则表达式等，DSL 没有通用编程语言（Java、Kotlin等）那么万能，但是在特定问题的解决上更高效。
+### 21. DSL 全称是 Domain Specific Language，即领域特定语言。顾名思义 DSL 是用来专门解决某一特定问题的语言，比如我们常见的 SQL 或者正则表达式等，DSL 没有通用编程语言（Java、Kotlin等）那么万能，但是在特定问题的解决上更高效。
 
 类型安全的构建器可以创建基于 Kotlin 的适用于采用半声明方式构建复杂层次数据结构领域专用语言（domain-specific languages 简称 DSL）。Kotlin的DSL属于内部DSL，DSL是一种风格，提升特定场景下代码的可读性和安全性。
 
