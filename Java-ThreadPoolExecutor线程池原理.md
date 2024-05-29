@@ -52,6 +52,11 @@ TERMINATED: terminated() has completed<br>
 
 1、runWorker 方法里面调用 ThreadPoolExecutor 的 getTask 方法，从任务队列拿任务，或者创建这个Worker的时候传入的firstTask，直接执行。<br>
 2、如果没有任务，就会一直等待（阻塞队列），或者到达设置的线程存活时间后销毁线程。<br>
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/ad044b87-5e39-44b7-9152-c8becd64f397)
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/3d9ea701-3e75-4381-b06e-a8f3257e7ce3)
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/3cd13671-16fc-434e-b418-fc0d43f2dc1e)
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/931edc8d-b2cf-4289-aa8c-690900603da0)
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/2aa1a1ee-c1b3-4b8f-85db-ead61c1f58a0)
 
 ### 7. 任务队列 BlockingQueue
 
@@ -68,3 +73,4 @@ TERMINATED: terminated() has completed<br>
 - DiscardOldestPolicy：丢弃任务队列中排在最前面的任务，并执行当前任务。（排在队列最前面的任务并不一定是在队列中待的时间最长的任务，因为有可能是按照优先级排序的队列）
 
 原文链接：https://juejin.cn/post/6844904000056197127
+这个讲的好：https://blog.csdn.net/cy973071263/article/details/131484384
