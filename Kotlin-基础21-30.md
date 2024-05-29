@@ -34,3 +34,37 @@
 #### 泛型约束
 ![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/5bfac443-35ea-4f46-92cd-34cafafd918e)
 
+### 23. contract 契约
+
+1、kotlin 1.3 引入，目前是实验性功能<br>
+2、契约 让一个函数能够以编译器理解的方式显式描述其行为。<br>
+3、契约 不作为表达式对待。您应该将它们视为编译器的注释，并且在运行时会忽略它们。如果您尝试在 契约 内断点，您会注意到调试器永远不会停止。<br>
+
+#### 定义
+
+```kotlin
+@ContractsDsl
+@ExperimentalContracts
+@InlineOnly
+@SinceKotlin("1.3")
+@Suppress("UNUSED_PARAMETER")
+public inline fun contract(builder: ContractBuilder.() -> Unit) { }
+```
+
+#### 使用注意
+
+1、在顶层函数中使用，不能在成员和类函数中使用，kotlin 1.4开始，支持给final；
+2、必须在方法内第一行；
+3、至少有一种Effect；
+4、程序员负责契约的正确性，编译器是无条件信任，不负责判断逻辑正确性
+
+kotlin里 类的成员函数，默认是public final的
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/7ad7f9f0-9fff-4e6a-bacf-25bfe2f044c8)
+
+示例：没有契约的情况下，编译器会认为：c是val的，但是可能会被重复赋值；c没有初始化不允许使用；
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/6a386826-abf4-4c21-9197-06c0e752eb92)
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/97054d7d-718d-4ec9-88fe-30e2cc902260)
+
+链接：<br>
+https://legacy.kotlincn.net/docs/reference/whatsnew13.html#%E5%A5%91%E7%BA%A6 <br>
+https://droidyue.com/blog/2019/08/25/kotlin-contract-between-developers-and-the-compiler/ <br>
