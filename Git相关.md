@@ -1,4 +1,4 @@
-### 打开Git-bash自动配置ssh私钥并启动ssh-agent
+### 1.打开Git-bash自动配置ssh私钥并启动ssh-agent
 
 1、在 “C:\Users\用户名” 目录下创建.profile文件
 
@@ -30,3 +30,6 @@ unset env
 ```
 
 3、重启shell
+
+### 2.
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/623a5d2d-78bc-4f9b-a7e8-c1ec73d4b476)
