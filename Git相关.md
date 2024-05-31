@@ -1,4 +1,4 @@
-### 1.打开Git-bash自动配置ssh私钥并启动ssh-agent
+### 1. 打开Git-bash自动配置ssh私钥并启动ssh-agent
 
 1、在 “C:\Users\用户名” 目录下创建.profile文件
 
@@ -31,5 +31,57 @@ unset env
 
 3、重启shell
 
-### 2.
+### 2. 基础
+git init  // 初始化仓库<br>
+git status  // 查看状态<br>
+git branch  // 查看项目下所有分支<br>
+git log  // 查看历史日志，q退出<br>
+git add fileName 或者 git add .  // 加入到版本控制<br>
+git commit -m "要写的注释"  // 提交<br>
+git branch xxx  // 创建分支<br>
+git checkout xxx  // 切换分支<br>
+git checkout -b xxx  // 创建并切换到 xxx 分支<br>
+git merge xxx  // 将 xxx 合并过来到当前分支<br>
+git branch -d xxx  // 删除分支<br>
+git branch -D xxx  // 强制删除分支<br>
+git remote add {远端代码库名字} {远端代码库地址(如：https://yyy.git)}  // 添加远端代码库<br>
+git push {远端代码库名字} {本地分支名}  // push本地分支到远端代码库，远程代码库产生的分支自动使用本地分支名<br>
+git fetch {远端代码库名字}  // 拉取全部分支<br>
+git pull {远端代码库名字} {本地分支}  // 拉取某个分支<br>
+
+### 3. 给git命令取别名，缩短输入，快速开发
+git config --global alias.c 'commit -m'  // 给 commit -m 建立别名为c，以后提交时调用 git c {注释} 即可<br>
+git config --global alias.co 'checkout'  // 给 checkout 建立别名<br>
+
+### 4. 合并分支时，不想直接变成 rebase，而是想必须有合入节点 merge
+
 ![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/623a5d2d-78bc-4f9b-a7e8-c1ec73d4b476)
+
+### 5. 如果已经commit了，还没推远端，此时想修改commit信息
+
+git commit --amend
+
+### 6. 撤销一次commit操作，让HEAD回到上一次的地方
+
+git reset HEAD^ [--hard]可选是否强制执行
+
+### 7. 变基操作 rebase，同时 squash commits
+
+1. git rebase {要变基到的分支的 hash 或者 分支名} -i
+2. 摁i，进入编辑模式，一般保留第一行的`pack`，其他改成`s`，即 squash 的意思
+3. 摁ESC退出编辑模式，然后输入`:wq`完成操作
+4. git-bash会继续完成rebase操作，让进行commit，此时直接摁`d`一直删到留下最新的一条，然后修改commit信息（如何修改看2、3步骤）
+5. 输入`:wq`完成整体变基操作
+6. 如果中间解决了冲突，最后需要git rebase --continue
+
+### 8. 三路合并算法
+
+https://marsishandsome.github.io/2019/07/Three_Way_Merge
+
+### 9. 将Head回到历史某次提交，慎重操作
+1. git reflog // 查看历史日志，找到要回到的提交的hash
+2. git reset --hard {要回到的提交的hash}
+
+### 10. 找回本地强制删除的提交
+1. git log -g // 使用此命令找到要恢复的commit，记录下commitId
+2. git recover branch {新分支名} commitId
