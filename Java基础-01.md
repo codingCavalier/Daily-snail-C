@@ -17,7 +17,7 @@ JDK是java develop kits，是java开发工具包，包含了JRE和开发工具�
 #### 5、==和equals的区别？
 1、==是操作符，用于比较两个变量的值，如果是基本数据类型，比较的是数值大小，如果是引用数据类型，比较的是内存地址。<br>
 2、equals是Object类的一个方法，允许子类重写，作用是比较两个对象的内容是否相等，默认情况下比较的是内存地址，我们可以重写这个方法，自定义内容比较的具体逻辑。<br>
-3、Java虚拟机内存中会默认存储-128~127里的Integer对象，所以在进行==比较时，前面128个对象是返回true的。<br>
+3、Java虚拟机内存中会默认存储-128~127里的Integer对象，所以在进行==比较时，这256个对象是返回true的。<br>
 4、==两边有一个是数值类型的，那么会自动拆箱，以数值类型进行比较。<br>
 5、拆箱是Integer.intValue，装箱是Integer.valueOf <br>
 6、对于包装类型，equals方法不会进行类型转换 <br>
@@ -35,7 +35,7 @@ public class Main {
         Long h = 2L;
          
         System.out.println(c==d);//true
-        System.out.println(e==f);//false 超出了128个预加载对象
+        System.out.println(e==f);//false 不属于256个预加载对象
         System.out.println(c==(a+b));//true 拆箱对比
         System.out.println(c.equals(a+b));//true 装箱对比
         System.out.println(g==(a+b));//true 拆箱
