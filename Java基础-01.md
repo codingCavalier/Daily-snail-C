@@ -329,3 +329,75 @@ Java 8 引入的，可以在接口中使用static修饰方法，为了将和接�
 可以有效的将有一定关系的类组织在一起，又可以对外界有所隐藏。<br>
 方便编写事件驱动程序。<br>
 方便编写多线程代码。<br>
+
+#### 51、Java Bean 命名规范？
+类名首字母大写并且驼峰式、成员变量名首字母小写并且驼峰式、成员变量私有private同时提供Setter和Getter方法、应该提供无参构造、避免使用Java保留字
+
+#### 52、成员内部类和静态内部类的区别？
+成员内部类默认持有外部类的引用。<br>
+成员内部类可以访问外部类的所有成员变量和成员方法（私有的成员也可以！）。静态内部类只能访问外部类的静态成员变量和静态成员方法（与是不是私有的无关，它都是内部类了，当然可以访问外部类私有的成员）。<br>
+静态内部类的实例化不需要依赖外部类，可以直接实例化（new Outer.StaticInner()）。成员内部类的实例化需要先实例化外部类对象，再实例化内部类对象（new Outer().new Inner()）。<br>
+静态内部类可以作为Builder模式用于创建外部类的实例，也可以作为对代码结构的统一管理，即将属于外部类的一些类定义成静态内部类，这样创建内部类时就能知道这些内部类是属于哪个外部类的。<br>
+成员内部类主要用于封装，或者解决不能多继承问题。
+
+#### 53、throw 和 throws 的区别？
+throw 代表一个动作，用于在程序中明确地抛出一个异常对象。它出现在方法体内部，可以作为单独的语句使用。
+throws 代表一种状态，用于声明一个方法可能会抛出的异常。它出现在方法声明中，不能单独使用。
+
+#### 54、final、finally、finalize 有什么区别？
+final 可以修饰类，变量，方法，修饰的类不能被继承，修饰的变量不能重新赋值，修饰的方法不能被重写。<br>
+finally 用于抛异常，finally 代码块内语句无论是否发生异常都会执行，常用于一些流的关闭。<br>
+finalize 方法用于垃圾回收。
+
+#### 55、try catch finally 的执行顺序？
+从 try 中第一行代码开始执行，执行到出现异常的代码，JVM 会创建一个异常对象。<br>
+判断 catch 是否能捕获到 JVM 创建的这个异常对象，如果捕获到就跳到 catch 代码块中，不会结束程序，继续执行 catch 中的代码逻辑；如果捕获不到，直接打印异常信息并结束程序。<br>
+如果 try 中没有异常，则执行完 try 中代码，跳过 catch，进入 finally 代码块。<br>
+如果 try 和 catch 中有 return，则是 try -> finally -> return （注意，如果写return，那么try和catch这俩分支里都要有return语句，或者直接写代码块外面。finally内部也可以写return，但是编辑器不建议）<br>
+
+```Java
+private static int a() {
+        try {
+            int a = 1 / 0;
+        } finally {
+            System.out.println("finally");
+        }
+        return 1;
+}
+结论：先走finally，再抛异常
+
+private static int a() {
+        try {
+            int a = 1 / 0;
+        } finally {
+            System.out.println("finally");
+            return 1;
+        }
+}
+结论：不会抛异常，因为方法结束了，没有机会抛出
+```
+
+#### 56、常见的异常类有哪些？
+NullPointerException、IOException、IndexOutOfBoundsException、FileNotFoundException、ClassCastException、NoSuchMethodException、NumberFormatException、IllegalArgumentException
+
+#### 57、开发中，你是如何处理异常的？
+看这个异常需要由谁来处理，如果需要让调用方处理，则需要在方法上声明要抛出的异常类型；调用了会抛出异常的方法时，要对可能抛出的异常类型逐一针对处理；<br>
+如果由方法内部处理，那么使用try-catch代码块处理；异常尽量不抛给用户，即尽量不终止程序，而是妥善解决，给用户提示信息。
+
+#### 58、NoClassDefFoundError 和 ClassNotFoundException 有什么区别？
+NoClassDefFoundError 是JVM运行时通过classpath加载类时，找不到对应的类而抛出的错误。ClassNotFoundException 在编译过程中可能出现此异常，在编译过程中必须将其抛出。<br>
+NoClassDefFoundError 的发生场景：类依赖的class或jar不存在；或类文件存在，但是在不同的域中，简而言之，就是找不到<br>
+ClassNotFoundException 的发生场景：调用Class.forName("类名")方法时，找不到指定的类；调用ClassLoader中的findSystemClass()方法时，找不到指定的类
+
+#### 59、什么是 Java 序列化？什么情况下需要序列化？
+序列化就是把内存里面的对象转化为字节流，以便用来实现存储或者传输。序列化需要保证传输双方对内容格式的统一和识别，一般采用json或者xml <br>
+序列化是通过实现Serializable接口，该接口没有需要实现的方法，只是为了标注该对象是可被序列化的。<br>
+反序列化就是把从文件或者网络上获取到的对象的字节流，转化成内存里的对象实例的过程。<br>
+
+注意事项：序列化ID用于区分对象的版本，需要保证唯一性。静态变量不会被序列化，因为序列化保存的是对象的状态，而静态变量属于类的状态。transient 修饰的字段代表对象的临时数据，不会被序列化和反序列化。<br>
+当一个父类实现序列化，子类自动实现序列化；而子类实现了 Serializable 接口，父类也需要实现 Serializable 接口。<br>
+当一个对象的实例变量引用其他对象，序列化该对象时也把引用对象进行序列化。（这是解决深拷贝问题）
+
+#### 60、深拷贝和浅拷贝的区别？
+浅拷贝，指的是重新分配一块内存，创建一个新的对象，指针指向被复制对象的同一块内存地址，两个对象中任一个对象被修改，另一个对象也会被影响；
+深拷贝：指的是重新分配一块内存，创建一个新的对象，并且将原对象中的元素，以递归的方式，通过创建新的子对象拷贝到新对象中。这意味着深拷贝不仅复制了对象本身，还复制了对象所引用的所有其他对象。因此，新对象和原对象没有任何关联，对其中一个对象的修改不会影响另一个对象。
