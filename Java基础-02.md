@@ -29,6 +29,6 @@ ConcurrentHashMap 都不允许。直接原因是源码中不支持插入null，�
 
 二义性问题：<br>
 所谓的二义性问题指的是代码或表达式存在多种理解或解释，导致程序的含义不明确或模糊。<br>
-即null可以理解成“null”值，也可以理解成“没有”。HashMap是运行在单线程环境下，它不会存在“有”或者“没有”的不确定情况，因为是单线程操作。<br>
-而ConcurrentHashMap却不能解释这个“有”或者“没有”是由于存储了null还是由于其他线程的操作导致的。<br>
+即null可以理解成“null”值，也可以理解成“没有”。HashMap是运行在单线程环境下，我们可以通过containsKey(null)来判断 “我们通过get()所得到” 的 null 是真实存在的null（null值），还是因为不存在这个key而返回的null（表示没有）。<br>
+而ConcurrentHashMap却不能通过这样的方式（containsKey(null)）来判断，因为它运行在多线程环境中，当我们判断containsKey时，可能另一个线程此时存入了null值，所以没有办法保证解释清楚这个null的具体含义。<br>
 
