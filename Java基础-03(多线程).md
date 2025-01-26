@@ -152,3 +152,106 @@ notify() 方法同理，它的调用会唤醒等待在这个锁上的某一个�
 poll 和 remove 都是取出并移除头元素，但 remove 更显强制性，没有元素就抛出异常。poll 的英文翻译是“民意调查/选举投票”更柔和。
 peek 和 element 都是取出且不移除头元素，但 element 更强制，表达了就是想要元素的目的，没元素会抛出异常。peek 的英文翻译是“偷看窥视”，只看看不移除，没有那么强硬的意思。
 offer 和 add 都是添加的意思，add更强硬，到达队列限制后，会抛出异常，添加失败。
+
+#### 15、ReentrantLock
+ReentrantLock 可以替代 synchronized 进行同步；ReentrantLock 获取锁更安全；必须先获取到锁，再进入 try {...} 代码块，最后使用 finally 保证释放锁；可以使用 tryLock() 尝试获取锁。<br>
+Condition（必须从Lock对象获取 newCondition()） 提供 await、signal、signalAll 功能和 wait、notify、notifyAll 一样，它也可以和 tryLock() 类似，设置等待时间，等待超时就自己醒来。<br>
+缺点：读写之间互相等待，如果读的多，写的少，可以用 ReadWriteLock 优化
+
+#### 16、ReadWriteLock（悲观读锁）
+允许多个线程同时读，但是如果有一个线程在写，那么所有的读也就不允许了，其他线程的写也同样不允许。适合读多写少的场景。<br>
+缺点：有线程在读的时候，不允许写的线程获取锁，需要等读的线程释放了锁，写的线程才有可能拿到锁，而且是看操作系统分配的。可以用 Java 8 引入的新的读写锁 StampedLock 解决。
+
+#### 17、StampedLock（乐观读锁）
+它的不同之处是，读的时候，允许写操作，但是读到的数据可能就不是最新的，那么就需要判断是否正在进行写操作。<br>
+乐观锁的意思就是乐观地估计读的过程中大概率不会有写入，因此被称为乐观锁。反过来，悲观锁则是读的过程中坚决不能有写入，也就是写入必须等待。显然乐观锁的并发效率更高，但一旦有小概率的写入导致读取的数据不一致，需要能检测出来，再读一遍就行。<br>
+StampedLock 是不可重入锁，即不能在一个线程中反复获取同一个锁。
+
+#### 18、Semaphore
+限制最多访问的线程数量。如果要对某一受限资源进行限流访问，可以使用Semaphore，保证同一时间最多N个线程访问受限资源。
+```Java
+public class AccessLimitControl {
+    // 任意时刻仅允许最多3个线程获取许可:
+    final Semaphore semaphore = new Semaphore(3);
+
+    public String access() throws Exception {
+        // 如果超过了许可数量,其他线程将在此等待:
+        semaphore.acquire();
+        try {
+            // TODO:
+            return UUID.randomUUID().toString();
+        } finally {
+            semaphore.release();
+        }
+    }
+}
+调用acquire()可能会进入等待，直到满足条件为止。也可以使用tryAcquire()指定等待时间：
+if (semaphore.tryAcquire(3, TimeUnit.SECONDS)) {
+    // 指定等待时间3秒内获取到许可:
+    try {
+        // TODO:
+    } finally {
+        semaphore.release();
+    }
+}
+Semaphore本质上就是一个信号计数器，用于限制同一时间的最大访问数量。
+```
+
+#### 19、concurrent 包
+java.util.concurrent 包下的 ArrayBlockingQueue、LinkedBlockingQueue、CopyOnWriteArrayList、ConcurrentHashMap、CopyOnWriteArraySet、LinkedBlockingDeque（双向队列）
+
+#### 20、atomic 包
+java.util.concurrent.atomic 包下的原子操作封装类 AtomicInteger、AtomicBoolean、AtomicLong、AtomicReference
+AtomicInteger 举例：<br>
+* 增加值并返回新值：int addAndGet(int delta)
+* 加1后返回新值：int incrementAndGet()
+* 获取当前值：int get()
+* 用CAS方式设置：int compareAndSet(int expect, int update)
+* 
+Atomic类是通过无锁（lock-free）的方式实现的线程安全（thread-safe）访问。它的主要原理是利用了CAS：Compare and Set。<br>
+
+#### 21、线程池 ExecutorService
+
+因为ExecutorService只是接口，Java标准库提供的几个常用实现类有：
+
+* FixedThreadPool：线程数固定的线程池；
+* CachedThreadPool：线程数根据任务动态调整的线程池；
+* SingleThreadExecutor：仅单线程执行的线程池；
+* ScheduledThreadPool：多线程调度用的线程池；
+* SingleThreadScheduledExecutor：单线程调度用的线程池；
+
+创建这些线程池的方法都被封装到 Executors 这个类中，实际创建的都是这个类 ThreadPoolExecutor。
+
+#### 22、线程池的队列
+线程池的两个重要组件，就是线程 和 任务队列。任务的排队策略有三种：
+* 直接交付：任务来了直接交给线程，而不是缓存起来，例如 CachedThreadPool 就是这样的，它的最大线程数是Int的最大值，它采用的是 SynchronousQueue 即同步队列，当有人取的时候，才能放入，也就是任务无需排队等待，没有空闲线程时直接创建新线程执行新来的任务，这就可能导致线程无限增长下去。
+* 无界队列：任务来了，如果没有空闲线程，同时也不能继续创建新的线程了，那就先缓存起来，例如 FixedThreadPool 采用的是LinkedBlockingQueue，它有固定的线程数，当没有空闲线程时，且任务来的太多，就会把任务缓存起来，它又是无界队列，没有容量限制，这就可能导致队列无限增大下去。
+* 有界队列：ArrayBlockingQueue，简单来说，就是可能导致任务丢失。这种队列需要和线程池大小配合来用，大队列配小池子，虽然可以降低CPU使用率，但是吞吐量也被人为降低了，线程少，处理的慢。小队列配大池子，会增加CPU使用率，但是调度困难，也可能导致吞吐量下降。
+
+注意：如果采用直接交付的方式执行任务，那么最大线程数必须是无限大，否则在任务数量超出最大线程数时，会抛出异常 RejectedExecutionException 拒绝执行异常，因为直接交付的策略需要创建新线程去执行任务。<br>
+如果采用有界队列，那么当任务添加时，超出队列容量，即添加失败时，将抛出异常 RejectedExecutionException 拒绝执行异常，例如2个线程正在执行2个任务，队列容量为3且已经满了，此时添加第6个任务就会抛出异常。
+
+#### 23、ScheduledThreadPool
+它的里面用到了定制的专用队列 DelayedWorkQueue 这是一个用于按照任务的执行时间对任务进行排序的队列，DelayedWorkQueue 是用数组来储存队列中的元素，核心数据结构是二叉最小堆的优先队列，队列满时会自动扩容。<br>
+详情看看这个：https://zhuanlan.zhihu.com/p/310621485 <br>
+
+为什么要使用 DelayedWorkQueue 呢？<br>
+定时任务执行时需要取出最近要执行的任务，所以任务在队列中每次出队时一定要是当前队列中执行时间最靠前的，所以自然要使用优先级队列。<br>
+DelayedWorkQueue 是一个优先级队列，它可以保证每次出队的任务都是当前队列中执行时间最靠前的，由于它是基于堆结构的队列，堆结构在执行插入和删除操作时的最坏时间复杂度是O(logN)。
+
+#### 24、多线程的网络模型（延迟工作队列原理基础）
+对于多线程的网络模型来说：所有线程会有三种身份中的一种：leader和follower，以及一个干活中的状态：proccesser。<br>
+它的基本原则就是，永远最多只有一个leader。而所有follower都在等待成为leader。<br>
+线程池启动时会自动产生一个Leader负责等待网络IO事件，当有一个事件产生时，Leader线程首先通知一个Follower线程将其提拔为新的Leader，然后自己就去干活了，去处理这个网络事件，处理完毕后加入Follower线程等待队列，等待下次成为Leader。<br>
+这种方法可以增强CPU高速缓存相似性，及消除动态内存分配和线程间的数据交换。<br>
+
+#### 25、ScheduledThreadPool 是如何调度多个线程获取任务的？
+再来说一下leader的作用，这里的leader是为了减少不必要的定时等待。leader线程的设计，是Leader-Follower模式的变种，旨在于为了减少不必要的时间等待。<br>
+当一个take线程变成leader线程时，只需要等待下一次的延迟时间，而其他take线程则需要等leader线程出队列了才被唤醒。<br>
+
+举例来说，如果没有leader，那么在执行take时，都要执行available.awaitNanos(delay)，假设当前线程执行了该段代码，这时还没有signal，它就阻塞了，第二个线程也执行了该段代码，也要被阻塞。多个线程执行该段代码是没有作用的，因为只能有一个线程会从take中返回queue[0]（因为有lock），<br>
+其他线程这时再返回for循环执行时取的queue[0]，已经不是之前的queue[0]了，然后又要继续阻塞（因为任务是延迟任务，执行时间还没有到）。<br>
+
+所以，为了不让多个线程频繁的做无用的定时等待，这里增加了leader，如果leader不为空，则说明队列中第一个节点已经在等待出队，这时其它的线程会一直阻塞，减少了无用的阻塞（注意，在finally中调用了signal()来唤醒一个线程，而不是signalAll()）。
+
+
