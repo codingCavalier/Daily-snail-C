@@ -254,4 +254,45 @@ DelayedWorkQueue 是一个优先级队列，它可以保证每次出队的任务
 
 所以，为了不让多个线程频繁的做无用的定时等待，这里增加了leader，如果leader不为空，则说明队列中第一个节点已经在等待出队，这时其它的线程会一直阻塞，减少了无用的阻塞（注意，在finally中调用了signal()来唤醒一个线程，而不是signalAll()）。
 
+#### 26、Runnable 和 Callable
+将一个 Runnable 放入 Thread 就可以运行我们的代码了，但是 Runnable 没有返回值。用 Callable 可以解决这个问题。<br>
+Runnable 是 run 方法。Callable 是 call 方法，它是泛型接口，可以指定要返回的数据类型。<br>
+Callable 配合 Future 使用，future.get() 方法可能会阻塞当前线程（LockSupport.park()）等待拿到结果，因为Callable扔进线程池就已经进入了执行阶段，当我们get()拿结果的时候，可能它已经执行完了，那就不用阻塞等待。
 
+#### 27、try-with-resources 语句
+Java 7 引入。更好的解决多层try-finally嵌套问题。
+```Java
+class DemoClass implements AutoCloseable {
+
+    @Override
+    public void close() throws Exception {
+        System.out.println("close auto ly");
+    }
+}
+
+class Demo2Class implements AutoCloseable {
+
+    @Override
+    public void close() throws Exception {
+        System.out.println("close auto ly 2");
+        throw new RuntimeException("2"); // 2
+    }
+}
+
+public static void main(String[] args) throws Exception {
+    try (DemoClass res = new DemoClass(); Demo2Class res2 = new Demo2Class()) {
+        // do something with res
+        throw new RuntimeException("0"); // 0
+    } // res will close auto ly after this line of code is executed
+    catch (Exception e) {
+        System.out.println(e.getMessage());
+    }
+}
+
+打印结果：
+close auto ly 2
+close auto ly
+0
+
+说明：1，符合先开后关的思维；2，发生异常后，会进行异常的抑制，最终打印出0，而不是2，如果没有0那个位置的异常，则会打印2；3，0位置抛出异常，不会影响资源的关闭，确保资源一定能关闭。
+```
