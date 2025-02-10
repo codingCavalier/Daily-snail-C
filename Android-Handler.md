@@ -84,7 +84,7 @@ loopOnce 方法内，调用了 Handler 的 dispatchMessage 方法
 2、可以监听队列是否空闲（可能真空闲，也可能有消息，但是消息不是当前时间执行）
 ![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/031acff7-8a00-496c-9e37-0738fcfb7219)
 
-3、next()方法，获取消息，死循环直到拿到消息，**target是null表示屏障消息**，然后开始找异步消息
+3、next()方法，获取消息，死循环直到拿到消息，阻塞靠的是nativePollOnce，**target是null表示屏障消息**，然后开始找异步消息
 ![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/1697b2fa-98af-4941-ade2-7770f60a6531)
 
 ### HandlerThread
