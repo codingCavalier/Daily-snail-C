@@ -18,7 +18,7 @@ Java的泛型是采用擦拭法实现的；
 注意泛型的继承关系：可以把ArrayList<Integer>向上转型为List<Integer>（T不能变！），但不能把ArrayList<Integer>向上转型为ArrayList<Number>（T不能变成父类）。
 
 #### 2、<? extends Number> 中的extends通配符
-<? extends Number>上界通配符，表示可以传入Number或者它的子类。使用类似<? extends Number>通配符作为方法参数时表示：
+extends 是上界通配符，表示可以传入Number或者它的子类。使用类似<? extends Number>通配符作为方法参数时表示：
 
 方法内部可以调用获取Number引用的方法，例如：Number n = obj.getFirst(); <br>
 方法内部无法调用传入Number引用的方法（null除外），例如：obj.setFirst(Number n); <br>
@@ -32,4 +32,21 @@ Java的泛型是采用擦拭法实现的；
 唯一例外是可以获取Object的引用：Object o = p.getFirst()。<br>
 **即一句话总结：使用super通配符表示可以写，不能读。**
 
-#### 4、
+#### 4、extends 和 super 比较
+何时使用extends，何时使用super？为了便于记忆，我们可以用PECS原则：Producer Extends Consumer Super。
+额外的无限定通配符"?"，它是所有T的超类，它出现在方法参数中时表示既不能写也不能读。很少使用，一般用T代替
+```Java
+public class Collections {
+    // 把src的每个元素复制到dest中:
+    public static <T> void copy(List<? super T> dest, List<? extends T> src) {
+        for (int i=0; i<src.size(); i++) {
+            T t = src.get(i);
+            dest.add(t);
+        }
+    }
+}
+这个copy()方法的定义就完美地展示了extends和super的意图：
+copy()方法内部不会读取dest，因为不能调用dest.get()来获取T的引用；
+copy()方法内部也不会修改src，因为不能调用src.add(T)。
+这是由编译器检查来实现的。如果在方法代码中意外修改了src，或者意外读取了dest，就会导致一个编译错误。
+```
