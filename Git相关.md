@@ -85,3 +85,6 @@ https://marsishandsome.github.io/2019/07/Three_Way_Merge
 ### 10. 找回本地强制删除的提交
 1. git log -g // 使用此命令找到要恢复的commit，记录下commitId
 2. git recover branch {新分支名} commitId
+
+### 11. fetch 远程代码报错：error setting certificate file: F:/Git/mingw64/etc/ssl/certs/ca-bundle.crt（错误的crt地址）
+1. git config --system http.sslcainfo "正确的crt地址"
