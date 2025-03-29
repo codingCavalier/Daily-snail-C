@@ -60,11 +60,11 @@ class LooperThread extends Thread {
 2、Looper.loop()干了什么？ 从 ThreadLocal 拿出 Looper 对象，执行死循环，每次循环调用 loopOnce 方法
 ![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/ba36cfad-c6c0-4bec-8770-9f1efef4af8a)
 
-loopOnce 方法内，调用了 Handler 的 dispatchMessage 方法
-![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/90282d88-0e2f-4556-80d4-b2bd771cd96f)
-
 3、loopOnce 方法干了什么？ 从Looper的消息队列拿消息，如果没有消息就阻塞
 ![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/705b1b03-5758-4719-ae35-86873d571425)
+
+调用了 Handler 的 dispatchMessage 方法，即开始处理这个msg了
+![image](https://github.com/codingCavalier/Daily-snail/assets/26496772/90282d88-0e2f-4556-80d4-b2bd771cd96f)
 
 ### Message
 
