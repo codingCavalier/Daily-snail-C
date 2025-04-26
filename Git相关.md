@@ -88,3 +88,6 @@ https://marsishandsome.github.io/2019/07/Three_Way_Merge
 
 ### 11. fetch 远程代码报错：error setting certificate file: F:/Git/mingw64/etc/ssl/certs/ca-bundle.crt（错误的crt地址）
 1. git config --system http.sslcainfo "正确的crt地址"
+
+### 12. 给IDEA添加 git-bash 快捷启动
+![image](https://github.com/user-attachments/assets/b5edefff-68fa-4d96-a98e-cdf01d6f2dd8)
