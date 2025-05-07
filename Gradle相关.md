@@ -1,4 +1,6 @@
-放在app 的 build.gradle 文件的 android 代码块外面
+1、查找so和assets来自哪个库
+
+放在 app 的 build.gradle 文件的 android 代码块外面
 
 ```Kotlin
 tasks.whenTaskAdded { task ->
