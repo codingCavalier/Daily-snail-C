@@ -91,3 +91,13 @@ https://marsishandsome.github.io/2019/07/Three_Way_Merge
 
 ### 12. 给IDEA添加 git-bash 快捷启动
 ![image](https://github.com/user-attachments/assets/b5edefff-68fa-4d96-a98e-cdf01d6f2dd8)
+
+### 13. 将已经跟踪的文件，解除git跟踪
+1. 为了避免混乱，建议先把要解除跟踪的文件路径写到合适位置的 `.gitignore` 里
+2. 进入项目目录，打开 git bash
+3. git rm -r -n --cached {要解除的文件路径} // -n 表示查看哪些文件可能会被解除，并不真的执行
+4. git rm -r --cached {要解除的文件路径} // 正式执行解除
+5. 解除后表示这个文件已经回到了不受管理的原始状态，由于第1步已经把它们的路径写到了 `.gitignore` 里，所以此时这个文件便真正处于 ignore 状态了
+6. 将刚刚解除跟踪的文件删除，然后和 `.gitignore` 文件一并提交上去
+7. 解释说明：因为远端还有这个文件，所以要进行一次删除操作，也就是说，要想解除某个文件的跟踪，本地先要存在这个文件，第4步才能正确执行，文件才能被解除管理
+8. 如何验证：使用 git fetch 拉代码到新的项目目录，看看ignore的文件是否已经不会拉回来了，然后本地修改刚刚解除管理的文件，看看是否会被认为需要提交
