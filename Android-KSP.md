@@ -31,6 +31,7 @@ dependencies {
     implementation("com.squareup:kotlinpoet:1.14.2")
 }
 ```
+- 确保项目级别的`settings.gradle`中有`include ':annotation-processor'`配置项
 
 - 在该子模块中创建注解
 ```kotlin
