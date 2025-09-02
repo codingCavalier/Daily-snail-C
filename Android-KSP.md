@@ -112,4 +112,6 @@ dependencies {
 最终生成的文件在`使用注解处理器模块`的这个目录下
 <img width="496" height="186" alt="image" src="https://github.com/user-attachments/assets/0fd39fc3-f881-493f-bb79-5422db4d72aa" />
 
+### 5. 可能遇到的问题
+- `.\gradlew :当前模块名:compileDebugKotlin --info` 运行报错，提示KSP编译失败，解决办法：把`override fun process(resolver: Resolver): List<KSAnnotated>`里的代码都注释掉，仅保留日志，看看是否能编译通过，然后一点点放开代码，看是哪里的问题
 
