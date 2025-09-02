@@ -3,12 +3,13 @@
 ```groovy
 plugins {
     // 其他省略...
-    // KSP 插件
+    // KSP 插件（1.8.0是项目用的kotlin版本，1.0.9是对应KSP插件版本，它们一一对应，具体去这里查：https://github.com/google/ksp/releases?page=10）
     id 'com.google.devtools.ksp' version '1.8.0-1.0.9' apply false
     // kotlin-jvm 插件（注解处理模块要用，因为注解处理模块是java-library，要支持kotlin语言，就需要这个插件把kotlin代码编译成.class字节码文件）
     id 'org.jetbrains.kotlin.jvm' version '1.8.0' apply false
 }
 ```
+- 从KSP 1.0.9开始，**不再需要**手动配置告诉gradle生成的源码位置
 
 ### 2. 创建子模块（注解处理模块）
 - 新建一个子模块，类型选library，<img width="269" height="40" alt="image" src="https://github.com/user-attachments/assets/6f87256d-641b-4d09-a6fa-ac03eb901ae5" />，命名推荐叫`annotation-processor`
@@ -107,5 +108,8 @@ dependencies {
 - 有日志输出，说明基础搭建顺利完成：
 <img width="523" height="71" alt="image" src="https://github.com/user-attachments/assets/80e1f857-7a15-4880-a8e2-3fd308a6d882" />
 
+### 4. 生成的文件
+最终生成的文件在`使用注解处理器模块`的这个目录下
+<img width="496" height="186" alt="image" src="https://github.com/user-attachments/assets/0fd39fc3-f881-493f-bb79-5422db4d72aa" />
 
 
