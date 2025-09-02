@@ -80,7 +80,31 @@ class AutoRegisterSymbolProcessorProvider : SymbolProcessorProvider {
 <img width="548" height="204" alt="image" src="https://github.com/user-attachments/assets/210141eb-1ba3-4784-a2de-c6a230fc593c" />
 <img width="654" height="86" alt="image" src="https://github.com/user-attachments/assets/e5ee9d11-64c4-4d18-a193-3a82f09cf59d" />
 
+### 3. 使用注解处理器
+- 在要使用注解处理器的模块中，使用注解
+```kotlin
+@Keep
+@AutoRegister("1234567890")
+class ABC {
+}
+```
 
+- 在要使用注解处理器的模块的`build.gradle`中，应用KSP插件：
+```groovy
+apply plugin: 'com.google.devtools.ksp'
+
+dependencies {
+    // 其他省略...
+    // 依赖注解处理模块，因为要使用里面的注解类
+    implementation project(':annotation-processor')
+    // 告诉KSP插件，注解处理器的位置
+    ksp(project(':annotation-processor'))
+}
+```
+
+- 在控制台运行`.\gradlew :当前模块名:build --info`或者`.\gradlew :当前模块名:compileKotlin --info`或者`.\gradlew :当前模块名:compileDebugKotlin --info`
+- 有日志输出，说明基础搭建顺利完成：
+<img width="523" height="71" alt="image" src="https://github.com/user-attachments/assets/80e1f857-7a15-4880-a8e2-3fd308a6d882" />
 
 
 
