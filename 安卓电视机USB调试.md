@@ -2,12 +2,14 @@
 - 电视可能不是触摸屏，需要插鼠标才能点击
 - 打开`开发人员选项`需要点击某些版本号的位置，可能是这三个位置：名字，版本号，整条的右侧空白区域
 <img width="718" height="412" alt="a5c72b39d88875fdd2df543351a2fbbc" src="https://github.com/user-attachments/assets/9343f11b-b837-4477-8b72-2d6e1c53664c" />
+
 - 点击次数可能不确定，3次、5次、7次等等，最好多试试
 - 找生产厂商的说明书，看看有没有打开调试的方法
 - 网上搜索打开调试的方式，例如：https://www.znds.com/tv-1010861-1-1.html
 - 下载 安卓原生的设置App，因为电视上的原生设置App可能被卸载了
 - 下载 AdbWireless这个apk，安装到设备上：https://github.com/LJason77/ADBWireless/tree/master，再试试能不能连上Adb
 - 下载 AirDroid 远程控制设备，https://www.airdroid.cn/download/
+
 设备上安装<img width="120" height="120" alt="image" src="https://github.com/user-attachments/assets/ddcec347-6923-4d45-b2d5-dc1a387241ff" />的<img width="98" height="211" alt="image" src="https://github.com/user-attachments/assets/4f85318c-d530-4115-b2b8-b9f6d77d527d" />
 ，电脑上安装<img width="141" height="217" alt="image" src="https://github.com/user-attachments/assets/278dbef3-f622-44e6-992a-9b4d3df404da" />
 
