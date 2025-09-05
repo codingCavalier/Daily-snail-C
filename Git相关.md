@@ -101,3 +101,8 @@ https://marsishandsome.github.io/2019/07/Three_Way_Merge
 6. 将刚刚解除跟踪的文件删除，然后和 `.gitignore` 文件一并提交上去
 7. 解释说明：因为远端还有这个文件，所以要进行一次删除操作，也就是说，要想解除某个文件的跟踪，本地先要存在这个文件，第4步才能正确执行，文件才能被解除管理
 8. 如何验证：使用 git fetch 拉代码到新的项目目录，看看ignore的文件是否已经不会拉回来了，然后本地修改刚刚解除管理的文件，看看是否会被认为需要提交
+
+### 14. 误操作 git reset current branch to here, 如何撤回
+1. 确保还没提交代码到远端
+2. git log -g // 查看想回到的那个commit的hash id
+3. git reset --mixed {hash id} // --mixed是当时误操作时选的合并方式，默认是mixed，如果当时改了，就用对应的操作
