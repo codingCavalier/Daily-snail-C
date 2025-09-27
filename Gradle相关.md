@@ -54,3 +54,11 @@ def printDir(File file) {
 ### 4. 打印依赖树
 ./gradlew :app:dependencies compileDebugKotlin
 - 正序的依赖树，androidx.core:core-ktx:1.7.0 -> 1.13.0 (*) 表示 core-ktx 这个库最终使用的是1.13.0版本，具体可以搜索 androidx.core:core-ktx:1.13.0 看看哪里引入了高版本
+
+### 5. 设置某个模块每次运行都重新编译
+在模块的`build.gradle`文件中最外层级添加如下代码：
+```Groovy
+tasks.all {
+    outputs.upToDateWhen { false }
+}
+```
