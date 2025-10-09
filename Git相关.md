@@ -108,7 +108,7 @@ https://marsishandsome.github.io/2019/07/Three_Way_Merge
 3. git reset --mixed {hash id} // --mixed是当时误操作时选的合并方式，默认是mixed，如果当时改了，就用对应的操作
 
 ### 15. 将当前分支推送到另一个仓库（可能用于基于某个阶段的代码开起新库）
-1. 添加远程仓库: git remote add {给远程仓库起个名} {远程仓库地址}
+1. 添加远程仓库地址: git remote add {给远程仓库起个名} {远程仓库地址}
 例如：git remote add new-origin https://github.com/username/new-repo.git
 2. 查看远程仓库: git remote -v
 3. 推送代码: git push {刚才给远程仓库起的名} {当前分支名}:{远程分支名}
@@ -116,3 +116,20 @@ https://marsishandsome.github.io/2019/07/Three_Way_Merge
 如果想远程分支名和本地分支名一样，可以直接：git push new-origin master
 4. 查看远程所有分支名: git ls-remote --heads {刚才给远程仓库起的名}
 例如：git ls-remote --heads new-origin
+
+### 16. 基于已有代码新建仓库
+1. 在项目目录下初始化git: git init
+2. 添加远程仓库地址: git remote add {给远程仓库起个名} {远程仓库地址}
+3. 查看远程仓库: git remote -v
+4. 添加全部代码: git add .
+5. 提交: git commit -m "初次提交"
+6. 查看本地分支: git branch
+7. 查看远程分支: git branch -r
+8. 推送代码: git push {远程仓库名} {当前分支名}:{远程分支名}
+
+### 17. 避免每次都输入密码
+在`C:\Users\用户名\.gitconfig`中增加
+```txt
+[credential]
+	helper = store
+```
