@@ -47,7 +47,7 @@ def printDir(File file) {
 ./gradlew :app:dependencyInsight --dependency coroutines-android --configuration debugRuntimeClasspath
 - app是模块名，可以自由更换
 - coroutines-android是要查找的依赖的名字的一部分，模糊查询，写的越精准，查的结果也越精准
-- configuration参数推荐用 debugRuntimeClasspath 或者 releaseRuntimeClasspath
+- configuration 来自于命令`:app:androidDependencies`的运行结果，如：debugRuntimeClasspath 或者 releaseRuntimeClasspath
 - 如图：一共有两处依赖此库（红色框内），继续往下，可以看出这是一个倒序的依赖树
 <img width="876" height="549" alt="image" src="https://github.com/user-attachments/assets/b43c79ac-eba0-4aad-9b1a-9cb707d0af2d" />
 
