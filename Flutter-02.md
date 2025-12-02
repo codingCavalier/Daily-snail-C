@@ -241,4 +241,19 @@ var map3 = {
 // 常量map
 final map4 = const {2: 'helium', 10: 'neon', 18: 'argon'};
 map4[33] = "hello"; // 运行时报错，Unsupported operation: Cannot modify unmodifiable map
+
+// 表达式元素（List\Set\Map都支持）
+var map5 = {2 + 2: 5 - 6};
+print(map5); // {4: -1}
+
+// 控制流元素（List\Set\Map都支持）
+var a = 0;
+var b = 33;
+var map6 = {
+  if (a != 0) a: "hello" else 66: "hello",
+  if (b == 0) b: "hello",
+  if (a + b == 33) "ok": "hello",
+};
+print(map6); // {66: hello, ok: hello}
+print(map6.runtimeType); // _Map<Object, String>
 ```
