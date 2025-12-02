@@ -229,4 +229,16 @@ print(map); // {123: 111, 1: 1}
 var map1 = <String, int>{};
 // map1[1] = 1; // 报错，key类型不对
 map1["123"] = 123;
+var map2 = Map<String, String>(); // 和map1的定义方式一样
+
+var map3 = {
+  // Key:    Value
+  'first': 'partridge',
+  'second': 'turtledoves',
+  'fifth': 'golden rings',
+};
+
+// 常量map
+final map4 = const {2: 'helium', 10: 'neon', 18: 'argon'};
+map4[33] = "hello"; // 运行时报错，Unsupported operation: Cannot modify unmodifiable map
 ```
