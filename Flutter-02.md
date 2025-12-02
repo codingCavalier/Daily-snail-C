@@ -249,11 +249,14 @@ print(map5); // {4: -1}
 // 控制流元素（List\Set\Map都支持）
 var a = 0;
 var b = 33;
+var numbers = [2, 3, 4];
+
 var map6 = {
   if (a != 0) a: "hello" else 66: "hello",
   if (b == 0) b: "hello",
   if (a + b == 33) "ok": "hello",
+  for (var n in numbers) n: n,
 };
-print(map6); // {66: hello, ok: hello}
+print(map6); // {66: hello, ok: hello, 2: 2, 3: 3, 4: 4}
 print(map6.runtimeType); // _Map<Object, String>
 ```
