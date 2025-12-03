@@ -96,6 +96,7 @@ https://marsishandsome.github.io/2019/07/Three_Way_Merge
 1. 为了避免混乱，建议先把要解除跟踪的文件路径写到合适位置的 `.gitignore` 里
 2. 进入项目目录，打开 git bash
 3. git rm -r -n --cached {要解除的文件路径} // -n 表示查看哪些文件可能会被解除，并不真的执行
+- 例如: git rm -r -n --cached .idea/compiler.xml
 4. git rm -r --cached {要解除的文件路径} // 正式执行解除
 5. 解除后表示这个文件已经回到了不受管理的原始状态，由于第1步已经把它们的路径写到了 `.gitignore` 里，所以此时这个文件便真正处于 ignore 状态了
 6. 将刚刚解除跟踪的文件删除，然后和 `.gitignore` 文件一并提交上去
