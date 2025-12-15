@@ -12,29 +12,35 @@
 <img width="1531" height="184" alt="image" src="https://github.com/user-attachments/assets/ab2dc752-5092-475e-9b0f-66026497ade5" />
 
 ### 异步编程
-#### Futures
+#### Future
 ##### 简介
 - Future 表示一个异步操作的结果，该操作最终会以一个值或一个错误完成。
 - 打印线程名：Isolate.current.debugName
 ```dart
 Future<String> _future() { // 定义一个返回Future对象的方法
+
   print('${Isolate.current.debugName}'); // main（表示主线程）
+
   return Isolate.run(() { // 相当于java、kotlin里的新建一个Thread，然后运行run方法
+
     print('${Isolate.current.debugName}'); // _RemoteRunner._remoteExecute（表示子线程）
+
     // throw HttpException("http 请求错误"); // 故意中途抛出异常
     // throw 401; // 可以抛出任何值
     throw false; // 可以抛出任何值
+
     return "Hello"; // 正常返回结果
   });
 }
 ```
 
-##### 方法
+##### Future的方法
 - then 方法：用于处理正常返回结果
-- onError 方法：用于处理异常，可以根据方法体上的`泛型`自动筛选要处理的异常类型，比如`bool`、`int`；test是函数参数，用于对传入的异常做判断，返回true表示此 `onError` 方法要处理这个异常，返回false表示不处理。
+- onError 方法：用于处理异常，可以根据方法体上的**泛型**自动筛选要处理的异常类型，比如`bool`、`int`；**test是函数参数**，用于对传入的异常做判断，返回true表示此 `onError` 方法要处理这个异常，返回false表示不处理。
 - catchError 方法：用于处理异常，比 `onError` 方法更宽泛，如果所有的 `onError` 都没有处理该异常，则最终会由 `catchError` 尝试处理，之所以说尝试处理，是因为它也有test函数参数用于判断是否要处理该异常。
+- test函数参数：**不传此参数，默认表示该 `onError` 或 `catchError` 方法要处理此异常。**
 
-##### 异常处理顺序
+##### Future的异常处理顺序
 - 基本规则：先尝试走 `onError` ，再尝试走 `catchError` 。
 - 有多个 `onError` 时：先匹配方法体上的泛型，再看test是否返回true，如果多个 `onError` 同时满足前面两个条件，那么走最先写的那个 `onError` 方法。
 - 有多个 `catchError` 时：先看test是否返回true，如果多个 `catchError` 同时满足条件，那么走最先写的那个 `catchError` 方法。
