@@ -15,18 +15,22 @@ _timer?.cancel();
 ```dart
 // 文件 a.dart 中
 class A {
-  Timer? _timer;
+   Timer? _timer;
+   void _a() {
+   }
 }
 class B {
-  void b() {
-    var a = A();
-    a._timer; // 可以访问  
-  }
+   void b() {
+      var a = A();
+      a._timer; // 可以访问
+      a._a(); // 可以访问
+   }
 }
 
 // 文件 b.dart 中
 void main() {
-  var a = A();
-  a._timer; // 报错，不可访问
+   var a = A();
+   a._timer; // 报错，不可访问
+   a._a(); // 报错，不可访问
 }
 ```
