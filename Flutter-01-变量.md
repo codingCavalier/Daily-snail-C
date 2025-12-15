@@ -4,6 +4,19 @@
 - 末尾写分号;
 - 一切皆 Object，原文：Because every variable in Dart refers to an object—an instance of a class—you can usually use constructors to initialize variables
 
+### 依赖管理
+- 例如在 pubspec.yaml 文件中增加对 synchronized 库的依赖
+```dart
+dependencies:
+  flutter:
+    sdk: flutter
+
+# 一些其他依赖
+# ...
+
+  synchronized: ^3.4.0
+```
+
 ### 变量
 
 #### var
