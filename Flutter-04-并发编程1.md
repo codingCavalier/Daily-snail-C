@@ -16,7 +16,7 @@
 ##### 简介
 - Future 表示一个异步操作的结果，该操作最终会以一个值或一个错误完成。
 - 打印线程名：Isolate.current.debugName
-- 同步情况下休眠当前线程：sleep(Duration(milliseconds: 1000));
+- **阻塞方式**休眠当前线程：sleep(Duration(milliseconds: 1000));
 
 ```dart
 Future<String> _future() { // 定义一个返回Future对象的方法
@@ -134,3 +134,28 @@ void main() {
 
 ##### Future的方法4（转Stream）
 - _future().asStream(); 具体用法，将在学习 `Stream` 时探讨。
+
+##### async 和 await
+- async 写在方法体上，await 只能用于标记了 async 的方法内。
+- 挂起和恢复：await会让当前线程挂起（实际是去执行其他逻辑，而不是阻塞住），等到耗时操作执行完毕，会从挂起点恢复继续执行。
+- **非阻塞方式**“休眠”当前线程：await Future.delayed(Duration(milliseconds: 1000));
+```dart
+void main() {
+  _testO4();
+
+  print('主线程结束'); // 先执行
+}
+
+void _testO4() async {
+  String result = await _future(); // 挂起
+  // await Future.delayed(Duration(milliseconds: 1000)); // 挂起
+  print('result: $result'); // 再执行
+}
+
+// 打印结果：
+main
+_RemoteRunner._remoteExecute
+主线程结束
+result: Hello
+```
+
