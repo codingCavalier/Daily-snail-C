@@ -112,7 +112,7 @@ void main() {
 - whenComplete 方法：监听Future完成时执行的方法
   - **timeout方法必须写在then和whenComplete前面，否则失效。**
   - **如果写了timeout方法，则then里面最终会收到timeout方法的返回值**，如下面例子中的"timeout"字符串。
-  - **then和whenComplete方法谁先写，就先执行谁。**
+  - **then和whenComplete方法，先写谁，就先执行谁。**
 
 ```dart
 void main() {
@@ -131,3 +131,6 @@ void main() {
       });
 }
 ```
+
+##### Future的方法4（转Stream）
+- _future().asStream(); 具体用法，将在学习 `Stream` 时探讨。
