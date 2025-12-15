@@ -16,12 +16,16 @@
 ##### 简介
 - Future 表示一个异步操作的结果，该操作最终会以一个值或一个错误完成。
 - 打印线程名：Isolate.current.debugName
+- 同步情况下休眠当前线程：sleep(Duration(milliseconds: 1000));
+
 ```dart
 Future<String> _future() { // 定义一个返回Future对象的方法
 
   print('${Isolate.current.debugName}'); // main（表示主线程）
 
   return Isolate.run(() { // 相当于java、kotlin里的新建一个Thread，然后运行run方法
+
+    sleep(Duration(milliseconds: 1000)); // 子线程sleep 1秒钟，模拟耗时操作
 
     print('${Isolate.current.debugName}'); // _RemoteRunner._remoteExecute（表示子线程）
 
@@ -70,13 +74,16 @@ void main() {
           return error == 401;
         }
       )
+      .catchError((error) {
+        print('catchError0: $error');
+      })
       .catchError( // 任何类型的异常都可以处理
         (error) {
-          print('catchError: $error');
+          print('catchError1: $error');
         },
         test: (error) {
           return error == 401;
-        },
+        }
       );
 }
 ```
