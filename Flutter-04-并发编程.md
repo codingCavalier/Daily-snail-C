@@ -38,13 +38,11 @@ Future<String> _future() { // 定义一个返回Future对象的方法
 }
 ```
 
-##### Future的方法
+##### Future的方法1（等待结果返回，处理结果）
 - then 方法：用于处理正常返回结果
 - onError 方法：用于处理异常，可以根据方法体上的**泛型**自动筛选要处理的异常类型，比如`bool`、`int`；**test是函数参数**，用于对传入的异常做判断，返回true表示此 `onError` 方法要处理这个异常，返回false表示不处理。
 - catchError 方法：用于处理异常，比 `onError` 方法更宽泛，如果所有的 `onError` 都没有处理该异常，则最终会由 `catchError` 尝试处理，之所以说尝试处理，是因为它也有test函数参数用于判断是否要处理该异常。
   - test函数参数：**不传此参数，默认表示该 `onError` 或 `catchError` 方法要处理此异常。**
-- ignore 方法：忽略正确结果和异常结果。
-- unawaited(Future对象) 方法：忽略正确结果，但是异常会正常抛出，注意处理。
 
 ##### Future的异常处理顺序
 - 基本规则：先尝试走 `onError` ，再尝试走 `catchError` 。
@@ -87,5 +85,49 @@ void main() {
           return error == 401;
         }
       );
+}
+```
+
+##### Future的方法2（不等待结果返回，忽略结果）
+- ignore 方法：忽略正确结果和异常结果。
+- unawaited(传入Future对象) 方法：忽略正确结果，但是异常会正常抛出，且无法通过try-catch捕获。
+
+```dart
+void main() {
+  // _future().ignore(); // 忽略正确结果和异常结果
+  try {
+    unawaited(_future()); // 忽略正确结果，但是异常会抛出，try-catch只能捕获_future方法内直接抛出的异常，对于 Isolate.run 里面抛出的异常无法捕获，只能通过上面说的 `onError` 或 `catchError` 方法来处理。
+  } on Exception catch (exception) { // 只捕获Exception类型的异常
+    print('报错了exception: ${exception.toString()}'); // 捕获不到
+  } on int catch (i) { // 只捕获int类型的异常
+    print('报错了int: $i'); // 捕获不到
+  } catch (all) { // 捕获任意类型的异常
+    print('报错了all: $all'); // 捕获不到
+  }
+}
+```
+
+##### Future的方法3（对超时，完成的监听）
+- timeout 方法：等待Future超时的时候执行的方法
+- whenComplete 方法：监听Future完成时执行的方法
+  - **timeout方法必须写在then和whenComplete前面，否则失效。**
+  - **如果写了timeout方法，则then里面最终会收到timeout方法的返回值**，如下面例子中的"timeout"字符串。
+  - **then和whenComplete方法谁先写，就先执行谁。**
+
+```dart
+void main() {
+  _future()
+      .timeout(
+        Duration(milliseconds: 1000),
+        onTimeout: () {
+          return "timeout";
+        },
+      )
+      .then((result) {
+        print('then: $result');
+      })
+      .whenComplete(() {
+        print('whenComplete');
+      });
 }
 ```
