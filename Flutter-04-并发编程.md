@@ -42,7 +42,9 @@ Future<String> _future() { // 定义一个返回Future对象的方法
 - then 方法：用于处理正常返回结果
 - onError 方法：用于处理异常，可以根据方法体上的**泛型**自动筛选要处理的异常类型，比如`bool`、`int`；**test是函数参数**，用于对传入的异常做判断，返回true表示此 `onError` 方法要处理这个异常，返回false表示不处理。
 - catchError 方法：用于处理异常，比 `onError` 方法更宽泛，如果所有的 `onError` 都没有处理该异常，则最终会由 `catchError` 尝试处理，之所以说尝试处理，是因为它也有test函数参数用于判断是否要处理该异常。
-- test函数参数：**不传此参数，默认表示该 `onError` 或 `catchError` 方法要处理此异常。**
+  - test函数参数：**不传此参数，默认表示该 `onError` 或 `catchError` 方法要处理此异常。**
+- ignore 方法：忽略正确结果和异常结果。
+- unawaited(Future对象) 方法：忽略正确结果，但是异常会正常抛出，注意处理。
 
 ##### Future的异常处理顺序
 - 基本规则：先尝试走 `onError` ，再尝试走 `catchError` 。
