@@ -137,7 +137,7 @@ void main() {
 
 ##### async 和 await
 - async 写在方法体上，await 只能用于标记了 async 的方法内。
-- 挂起和恢复：await会让当前线程挂起（实际是去执行其他逻辑，而不是阻塞住），等到耗时操作执行完毕，会从挂起点恢复继续执行。
+- 挂起和恢复：await 会让当前线程挂起（实际是去执行其他逻辑，而不是阻塞住），等到耗时操作执行完毕，会从挂起点恢复继续执行。
 - **非阻塞方式**“休眠”当前线程：await Future.delayed(Duration(milliseconds: 1000));
 ```dart
 void main() {
