@@ -16,12 +16,17 @@
 - 定义异步函数：async 写在函数体前。
 - await 只能用在标记了 async 的异步函数内。
 - 挂起和恢复：await 会让当前线程挂起（实际是去执行其他逻辑，而不是阻塞住），等到耗时操作执行完毕，会从挂起点恢复继续执行。
+- 捕获异常：**在 await future 时，可以通过try-catch方式捕获异常，如果不是 await 方式等待，则不能捕获到异常**
 - **非阻塞方式**“休眠”当前线程：await Future.delayed(Duration(milliseconds: 1000));
 ```dart
 void main() async {
   Future future = _testO4();
 
-  await future; // 这里 await 等待异步函数执行完毕，再执行下面代码；如果把这里注释掉，那么打印结果是：异步函数开始、主线程结束、异步函数结束
+  try {
+    await future; // 这里 await 等待异步函数执行完毕，再执行下面代码；如果把这里注释掉，那么打印结果是：异步函数开始、主线程结束、异步函数结束
+  } catch (error) { // 在 await future 时，可以通过这种方式捕获异常，如果不是 await 方式等待，则不能捕获到异常
+    print('error: $error');
+  }
 
   print('主线程结束');
 }
