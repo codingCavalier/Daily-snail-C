@@ -12,6 +12,33 @@
 <img width="1531" height="184" alt="image" src="https://github.com/user-attachments/assets/ab2dc752-5092-475e-9b0f-66026497ade5" />
 
 ### 异步编程
+#### 异步函数 async 和 await
+- 定义异步函数：async 写在函数体前。
+- await 只能用在标记了 async 的异步函数内。
+- 挂起和恢复：await 会让当前线程挂起（实际是去执行其他逻辑，而不是阻塞住），等到耗时操作执行完毕，会从挂起点恢复继续执行。
+- **非阻塞方式**“休眠”当前线程：await Future.delayed(Duration(milliseconds: 1000));
+```dart
+void main() async {
+  Future future = _testO4();
+
+  await future; // 这里 await 等待异步函数执行完毕，再执行下面代码；如果把这里注释掉，那么打印结果是：异步函数开始、主线程结束、异步函数结束
+
+  print('主线程结束');
+}
+
+Future<int> _testO4() async { // 异步函数
+  print('异步函数开始');
+  await Future.delayed(Duration(milliseconds: 1000)); // 挂起
+  print('异步函数结束'); // 再执行
+  return 33;
+}
+
+// 打印结果：
+异步函数开始
+异步函数结束
+主线程结束
+```
+
 #### Future
 ##### 简介
 - Future 表示一个异步操作的结果，该操作最终会以一个值或一个错误完成。
@@ -134,28 +161,4 @@ void main() {
 
 ##### Future的方法4（转Stream）
 - _future().asStream(); 具体用法，将在学习 `Stream` 时探讨。
-
-##### async 和 await
-- async 写在方法体上，await 只能用于标记了 async 的方法内。
-- 挂起和恢复：await 会让当前线程挂起（实际是去执行其他逻辑，而不是阻塞住），等到耗时操作执行完毕，会从挂起点恢复继续执行。
-- **非阻塞方式**“休眠”当前线程：await Future.delayed(Duration(milliseconds: 1000));
-```dart
-void main() {
-  _testO4();
-
-  print('主线程结束'); // 先执行
-}
-
-void _testO4() async {
-  String result = await _future(); // 挂起
-  // await Future.delayed(Duration(milliseconds: 1000)); // 挂起
-  print('result: $result'); // 再执行
-}
-
-// 打印结果：
-main
-_RemoteRunner._remoteExecute
-主线程结束
-result: Hello
-```
 
