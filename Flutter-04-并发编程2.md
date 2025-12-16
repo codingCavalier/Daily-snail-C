@@ -1,7 +1,6 @@
 #### Stream
 ##### 简介
 - 可以以流的方式持续不断产生数据的异步代码
-- 
 
 ##### Stream的方法1（简单用法）
 - 发射一个数据：Stream.value(1);
@@ -12,31 +11,52 @@
 - 创建一个错误：Stream.error(1, StackTrace.current);
 
 - listen 方法：监听并处理流内每个数据，**返回StreamSubscription，可用于取消监听**
-- forEach 方法：对流内每个数据，
+- forEach 方法：对流内每个数据，均执行action操作
+- timeout 方法：判定**每个数据**是否发送超时，如果超时，则**每次超时的时候**都执行缺省方法
+- map 方法：对每个数据做转换
+- any every contains elementAt 等方法：都是返回一个Future，当Stream里条件满足时，Future执行
+- take takeWhile skip skipWhile 等方法：提供了对数量控制的简便方法，比如只取多少个，或者满足条件时才取，跳过多少个，或者满足条件时才跳过。
 
 ```dart
 void main() async {
-  Stream.periodic(Duration(milliseconds: 1000), (count) { // 周期发送
+  Stream stream = Stream.periodic(Duration(milliseconds: 1000), (count) { // 周期发送
     print('count: $count');
     return A(count);
   });
 
-  StreamSubscription subscription = stream.listen(
-    (item) { // 处理每个数据
-      print('item0: $item');
-    },
-    onDone: () { // 流结束的回调
-      print('done');
-    },
-    onError: (error, stackTrace) { // 发生错误的回调
-      print('error: $error');
-      print('$stackTrace');
-    },
-    cancelOnError: false, // 发生错误时是否取消监听
+  // 测试1
+  StreamSubscription subscription = stream
+    .timeout(
+        Duration(milliseconds: 1000),
+        onTimeout: (controller) { // 超时发生时的缺省方法
+          print('超时了');
+          controller.add(A(404));
+        },
+    )
+    .map((input) { // 转换
+      return B(200);
+    })
+    .listen(
+      (item) { // 处理每个数据
+        print('item0: ${item.i}');
+      },
+      onDone: () { // 流结束的回调
+        print('done');
+      },
+      onError: (error, stackTrace) { // 发生错误的回调
+        print('error: $error');
+        print('$stackTrace');
+      },
+      cancelOnError: false, // 发生错误时是否取消监听
   );
 
   await Future.delayed(Duration(milliseconds: 2000)); // 2秒后取消监听
   subscription.cancel();
+
+  // 测试2
+  await stream.contains(A(3)).then((result) {
+    print('找到了3: $result');
+  });
 }
 
 class A {
@@ -47,6 +67,14 @@ class A {
   }
 
   get i => _i;
+
+  @override
+  bool operator ==(Object other) { // 重写 == 和 hashCode
+    return other.runtimeType == runtimeType && other.hashCode == hashCode;
+  }
+
+  @override
+  get hashCode => i;
 }
 ```
 
