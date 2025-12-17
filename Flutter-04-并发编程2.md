@@ -1,6 +1,8 @@
 #### Stream
 ##### 简介
 - 可以以流的方式持续不断产生数据的异步代码
+- 单订阅 同步/异步 Stream
+- 多订阅（允许多监听）同步/异步 BroadcastStream
 
 ##### Stream的方法1（产生Stream）
 - 发射一个数据：Stream.value(1);
@@ -21,19 +23,19 @@
   - reduce 方法：对数据做合并处理，返回的Future最终结果将返回计算后的最终值
   - fold 方法：同reduce，一模一样，但是fold方法有初始值，流里的第1个数据和初始值做计算，而不是像reduce那样1和2做计算
   - drain 方法：忽略流内所有数据，并最终返回一个固定值，**大概使用场景是不关心流内数据，但是关心最终结果，目的就是等流结束**
+  - timeout 方法：判定**每个数据**是否发送超时，如果超时，则**每次超时的时候**都执行缺省方法
 - 数量控制：
   - take takeWhile skip skipWhile 等方法：提供了对数量控制的简便方法，比如只取多少个，或者满足条件时才取，跳过多少个，或者满足条件时才跳过
   - distinct 方法：和前面一个数据比较，去重，**只和前面一个数据对比，大概使用场景是为了避免连续的两次重复数据**
   - where 方法：类似于kotlin里的filter方法，做数据筛选用
 - 筛选查找：
-  - firstWhere 方法：类似于kotlin里的firstOrNull方法，不过它可以提供缺省值，即假如找不到符合条件的数据，则返回缺省值
-  - lastWhere 方法：和firstWhere方法类似，从头找到尾，当数据流结束后，给出最后一个符合条件的数据，也可以提供缺省值
+  - firstWhere 方法：类似于kotlin里的firstOrNull方法，不过它可以提供缺省值，即假如找不到符合条件的数据，则返回缺省值，**如果没有找到符合条件的值，且没有提供缺省值，那么会抛出异常**
+  - lastWhere 方法：和firstWhere方法类似，从头找到尾，当数据流结束后，给出最后一个符合条件的数据，也可以提供缺省值，**如果没有找到符合条件的值，且没有提供缺省值，那么会抛出异常**
+  - singleWhere 方法：和上面两个类似，但是如果找到多个值，会抛出异常，因为它只允许有一个值，**如果没有找到符合条件的值，且没有提供缺省值，那么会抛出异常**
   - any every contains elementAt 等方法：都是返回一个Future，当Stream里条件满足时，Future执行
-
-- timeout 方法：判定**每个数据**是否发送超时，如果超时，则**每次超时的时候**都执行缺省方法
-- 
-
-- map 方法：类似于kotlin里的map方法，做数据转换用
+- 数据转换：
+  - map 方法：类似于kotlin里的map方法，做数据转换用
+  - cast transform expand 方法：都可以做数据转换
 
 ```dart
 void main() async {
@@ -97,7 +99,6 @@ class A {
 ```
 
 ##### Stream的方法3（数据转换）
-- 调用 stream 对象的 map 方法：对每个数据做转换
 - 创建转换类：Stream<A> stream = Stream.eventTransformed(Stream.fromIterable([0, 1, 2, 3, 4, 5, 6]), (output,) { return TransformSink(output); }); **TransformSink 详见下方代码**，如下示例，是将int流转换成A类型的流，当event为3时，发射一个A对象
 
 ```dart
