@@ -2,7 +2,7 @@
 -​ Zone 是 Dart 中管理异步代码执行上下文的机制，可以理解为 JavaScript 中的 "zone.js"，但更强大。它是 Dart 异步编程的底层基础设施。
 - Zone.current 执行代码时所在的 Zone 。
 - Zone.fork() 创建继承父 Zone 的新 Zone 。
-- runZoned() 在指定 Zone 中运行代码。**内部是调用的fork方法，创建了新的Zone，这里注意，由于是继承的父Zone，因此子Zone重写自定义行为方法时，会覆盖父Zone的相同方法**
+- runZoned() 在指定 Zone 中运行代码。**内部是调用的fork方法，创建了新的Zone**
 ```dart
 print('${Zone.current}'); // Instance of '_RootZone'
 
@@ -146,6 +146,26 @@ void zoneSwitching() {
     print('Back in ${Zone.current["name"]}'); // Zone1
   });
 }
+```
+- Zone 的嵌套
+  - **理解一下输出的结果，为什么是这样的**
+```dart
+runZoned(() {
+  runZoned(() {
+    print('This will be intercepted');
+  }, zoneSpecification: ZoneSpecification(
+    print: (self, parent, zone, line) {
+      parent.print(zone, '[Inner] $line');
+    },
+  ));
+}, zoneSpecification: ZoneSpecification(
+  print: (self, parent, zone, line) {
+    parent.print(zone, '[Outer] $line');
+  },
+));
+
+打印结果：
+[Outer] [Inner] This will be intercepted
 ```
 
 #### Isolate
