@@ -5,6 +5,16 @@
 - 多订阅（允许多监听）同步/异步 BroadcastStream
 
 ##### 单订阅
+```dart
+StreamController controller = StreamController<int>(); // 生成流控制器
+Stream stream = controller.stream; // 拿到里面的流
+
+StreamSubscription subscription = stream.listen((event) {
+  print('event: $event, ${Isolate.current.debugName}');
+});
+
+controller.add(100); // 通过控制器发送数据
+```
 
 ##### 多订阅（广播）
 ```dart
