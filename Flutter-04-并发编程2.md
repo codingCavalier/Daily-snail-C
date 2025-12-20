@@ -4,6 +4,34 @@
 - 单订阅 同步/异步 Stream
 - 多订阅（允许多监听）同步/异步 BroadcastStream
 
+##### 单订阅
+
+##### 多订阅（广播）
+```dart
+StreamController controller = StreamController<int>.broadcast(); // 生成流控制器
+Stream stream = controller.stream; // 拿到里面的流
+
+// 允许多监听
+StreamSubscription subscription = stream.listen((event) {
+  print('event0: $event');
+});
+// 允许多监听
+stream.listen((event) {
+  print('event1: $event');
+});
+// 允许多监听
+stream.listen((event) {
+  print('event2: $event');
+});
+
+controller.add(100); // 通过控制器发送数据
+controller.addError(404, StackTrace.current); // 发送异常
+controller.close(); // 关闭流
+
+subscription.pause(); // 某个监听可以暂停监听
+subscription.cancel(); // 某个监听可以独立取消监听
+```
+
 ##### Stream的方法1（产生Stream）
 - 发射一个数据：Stream.value(1);
 - 发射多个数据：Stream.fromIterable([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
