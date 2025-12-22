@@ -169,3 +169,71 @@ runZoned(() {
 ```
 
 #### Isolate
+##### 注意事项与成本
+- 创建开销大：创建和销毁 Isolate 的成本很高（大约 30-50KB 内存和 2ms 左右的时间）。不要频繁创建和销毁，对于轻量级任务，使用普通的异步操作（Future）更合适。
+- 通信开销大：消息传递涉及序列化和复制，如果传递的数据量非常大（如一个巨大的 List），复制成本会很高。
+- 无法直接共享状态：不能像多线程那样通过全局变量来共享状态，**所有协作都必须通过显式的消息传递来设计。**
+
+##### Isolate.spawn
+- 这是最基础的方式，用于启动一个**长期运行的后台任务。**
+- ReceivePort：是一个Stream，用于持续接收Isolate传递出的消息
+- Isolate.spawn：生成一个“线程”，传递的第一个参数是这个“线程”要运行的方法，第二个参数是运行这个方法时，给方法传入的参数
+- receivePort.close()：就是Stream的close方法，关闭流的接收
+- isolate.kill(priority: Isolate.immediate)：杀死“线程”，并且指定了执行时效是立即执行
+- sendPort.send(200)：发送内容到流里
+
+```dart
+import 'dart:isolate';
+
+void backgroundTask(SendPort sendPort) {
+  sendPort.send(200);
+  sendPort.send(201);
+  sendPort.send(202);
+  sendPort.send(203);
+}
+
+void main() async {
+  ReceivePort receivePort = ReceivePort();
+
+  Isolate isolate = await Isolate.spawn(backgroundTask, receivePort.sendPort);
+
+  // 故意延迟2秒再监听
+  await Future.delayed(Duration(milliseconds: 2000));
+
+  // 依然可以收到消息
+  receivePort.listen((message) {
+    print('message: $message');
+    receivePort.close(); // 关闭监听
+    isolate.kill(priority: Isolate.immediate); // 关闭线程
+  });
+}
+```
+
+##### Isolate.run
+- 这是更简单、更安全的 API，它为你处理了端口创建、消息传递、资源清理等繁琐工作，**非常适合执行单个计算密集型任务。**
+
+```dart
+void main() async {
+  int result = await Isolate.run(() {
+    print('执行任务, ${Isolate.current.debugName}');
+    return 200;
+  });
+
+  print('结果, $result');
+}
+```
+
+##### 在 Flutter 中的便利 API
+- compute 函数：这是 Isolate.run在 Flutter 中的**前身和简化版**，专门用于将同步函数放到 Isolate 中执行并返回结果，非常适合在构建 UI 时触发一个耗时计算。
+
+```dart
+import 'package:flutter/foundation.dart'; // compute 函数是flutter下的，而Isolate.run是sky_engine下的
+
+void main() async {
+  int result = await compute((message) {
+    return message * 2;
+  }, 200);
+
+  print('result, $result');
+}
+```
