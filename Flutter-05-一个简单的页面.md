@@ -7,6 +7,8 @@
 - <img width="164" height="69" alt="image" src="https://github.com/user-attachments/assets/17a9e9f0-5066-4a43-8eaa-d3f65425d5fe" />
 - 平板内运行效果
 - <img width="960" height="600" alt="image" src="https://github.com/user-attachments/assets/8731ecac-67b5-449d-9abb-d21ad453845b" />
+- label这里写安卓的应用名称
+- <img width="784" height="112" alt="image" src="https://github.com/user-attachments/assets/4cf9fc15-7e32-400b-8b5d-bff327e23823" />
 
 ```dart
 import 'package:flutter/material.dart';
