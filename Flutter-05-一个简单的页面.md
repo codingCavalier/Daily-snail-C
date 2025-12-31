@@ -5,6 +5,8 @@
 - <img width="314" height="56" alt="image" src="https://github.com/user-attachments/assets/acf9209a-164a-45b8-9109-a3cbfd6bf915" />
 - 也可以直接运行到网页里或者windows端
 - <img width="164" height="69" alt="image" src="https://github.com/user-attachments/assets/17a9e9f0-5066-4a43-8eaa-d3f65425d5fe" />
+- 平板内运行效果
+- <img width="960" height="600" alt="image" src="https://github.com/user-attachments/assets/8731ecac-67b5-449d-9abb-d21ad453845b" />
 
 ```dart
 import 'package:flutter/material.dart';
