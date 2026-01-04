@@ -1,8 +1,12 @@
 ### 构建命令
-- flutter build apk --build-name "abcd" --build-number "101"
+- 构建release包：flutter build apk --build-name "abcd" --build-number "101"
 - <img width="472" height="19" alt="image" src="https://github.com/user-attachments/assets/e155d8cc-cefc-4c3e-bbb7-5aba651a7c42" />
 - build-name：是安卓里的VersionName，iOS里的CFBundleShortVersionString，Windows里的major, minor, and patch parts of the product and file versions
 - build-number：是安卓里的VersionCode，iOS里的CFBundleVersion，Windows里的build suffix
-- 其他构建可以参考：https://github.com/codingCavalier/Daily-Life-Is-Brief/edit/main/Flutter打包Apk.md
 - 从打好的Apk里，可以看到刚刚的参数
 - <img width="602" height="267" alt="image" src="https://github.com/user-attachments/assets/51615fe3-007b-4158-8ac1-db9c13afd076" />
+- 如果是这样不携带参数：flutter build apk，则会使用`pubspec.yaml`中的`version:`配的参数
+- <img width="223" height="58" alt="image" src="https://github.com/user-attachments/assets/b6cb52b6-00ad-4601-a9d2-91ce27158fd0" />
+- 从打好的Apk里，可以看到刚刚的参数
+- <img width="630" height="198" alt="image" src="https://github.com/user-attachments/assets/8613290d-8f9d-4ab2-9cd2-c7dc87dea0aa" />
+- 其他构建可以参考：https://github.com/codingCavalier/Daily-Life-Is-Brief/edit/main/Flutter打包Apk.md
