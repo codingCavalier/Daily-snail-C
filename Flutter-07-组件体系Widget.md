@@ -40,9 +40,10 @@
 - 主要子类有
   - 1. InheritedWidget - 数据传递
   - 2. ParentDataWidget - 布局信息传递
+  - 3. ProxyElement - 代理元素
 
 #### PreferredSizeWidget
-- 偏好尺寸组件
+- 偏好尺寸组件（是个接口）
 - 不是真正的 Widget 子类，但实现了 Widget 接口
 - 用于指定偏好尺寸
 - 常用于 AppBar、TabBar 等
