@@ -12,6 +12,9 @@
   - margin：指定左上右下各个边的内边距，
   - color/decoration：指定背景装饰，**不能同时设置**，color就是背景色，decoration优先使用BoxDecoration，和安卓的Shape很像，可以设置背景色+描边以及描边粗细和位置等
   - foregroundDecoration：指定前景装饰
+  - transform：变换矩阵，例如旋转，transform: Matrix4.rotationZ(30 * math.pi / 180)
+  - <img width="960" height="600" alt="image" src="https://github.com/user-attachments/assets/52fd33aa-28f5-4dda-97be-6fce1069be13" />
+
 - 注意：
   - 如果不设置宽高，也不设置alignment，那么Container会采用**包裹内容**的方式计算自己的大小
   - 不设置圆角时，ShapeDecoration 会有默认外部圆角
@@ -19,7 +22,7 @@
   - 内边距的100不是从高度320的顶部0的位置开始计算的，而是减去了decoration的border的内描边宽度后开始计算的
   - <img width="378" height="359" alt="image" src="https://github.com/user-attachments/assets/9694f391-14e4-484d-af66-84cd71f72c1f" />
   - 
-- 效果（代码在下面）：
+- 不旋转的效果如下（代码在下面）：
 - <img width="960" height="600" alt="image" src="https://github.com/user-attachments/assets/3f7f053c-01f3-453f-990a-a3780fd2645c" />
 
   ```dart
