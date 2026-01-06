@@ -2,6 +2,21 @@
 - 继承自StatelessWidget，是最常用的组件之一
 - 基本：Text('Hello, Flutter!')
 - 带样式：Text('带样式的文本', style: TextStyle(fontSize: 24.0))
+- 带支柱样式：StrutStyle
+  - 使用场景：
+    - 多行文本需要统一行高时​，保持相同行距
+    - 不同大小字体混合排版时​，想要基线对齐
+    - 列表项高度不一致时​，想要每行高度相同
+    - 复杂文本布局时​，想要精确控制布局
+  - 注意：
+    - StrutStyle.height：表示一个倍数，用于乘上原行高计算新行高
+    - 默认行高的计算：TextStyle.fontSize * 1.25，印刷业惯例，https://zhuanlan.zhihu.com/p/696502299
+    - 实际行高的计算：(StrutStyle.fontSize 或 默认行高) * StrutStyle.height
+    - 如果StrutStyle设置了fontSize和height，那么行高会选择从它们的乘积，与默认行高，中最大的值，去设置。
+      - 比如默认行高20 * 1.25 = 25，但是StrutStyle设置的行高是20 * 1 = 20，那么实际行高还是25，不会采用20
+    - 如果StrutStyle没有设置fontSize但是设置了height，那么行高是默认行高和height的乘积。
+    - 下图：左侧行高是10 * 1.25 * 2.0 = 25.0，右侧行高是20 * 1.0 = 20.0
+    - <img width="291" height="293" alt="image" src="https://github.com/user-attachments/assets/0f69544d-218b-4a1c-9fce-8123ae1f8978" />
 
 #### 图标Icon
 - 继承自StatelessWidget，是最常用的组件之一
