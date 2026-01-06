@@ -1,6 +1,12 @@
-#### 文本
+#### 文本Text
+- 继承自StatelessWidget，是最常用的组件之一
 - 基本：Text('Hello, Flutter!')
 - 带样式：Text('带样式的文本', style: TextStyle(fontSize: 24.0))
+
+#### 图标Icon
+- 继承自StatelessWidget，是最常用的组件之一
+- Icon(Icons.holiday_village, color: Colors.green, size: 100)
+- 
 
 #### 容器Container
 - 继承自StatelessWidget，是最常用的组件之一
@@ -29,6 +35,7 @@
   return Container(
       alignment: Alignment.center, // 本身是居左居上的，这个center可以控制成居左居中。因为未指定宽高，默认是包裹内容
       color: Colors.green,
+      // transform: Matrix4.rotationZ(30 * math.pi / 180), // 矩阵变换
       child: Row(
         // 未指定宽度，默认最大化计算
         mainAxisAlignment: MainAxisAlignment.center, // 控制行内内容的对齐方式，这里为居中对齐
@@ -84,4 +91,6 @@
       ),
     );
   ```
-  
+
+  #### 内边距Padding
+  - SingleChildRenderObjectWidget
