@@ -33,10 +33,19 @@
   - TextWidthBasis.parent：则是多行文本时（即文本长度足以自动换行时）宽度占满父布局宽度，然后自动换行；单行文本时（即文本长度不足以自动换行时）宽度包裹内容
   - <img width="506" height="309" alt="image" src="https://github.com/user-attachments/assets/947a9d8f-eea5-4846-a4e2-97d473e85dee" />
 - textHeightBehavior：定义如何在文本上方和下方应用[TextStyle.height]。
-  - applyHeightToFirstAscent 和 applyHeightToLastDescent：默认true，表示 TextStyle.height 包含 ascent 和 descent，文字将按照常规方式绘制
+  - applyHeightToFirstAscent：是否将计算完的行高应用到第一行（自动换行后的第一行）的ascent上，默认true，表示ascent参与行高的计算，即行高值大，则ascent也同样增大，行高值小，则ascent也同样减小。false时，则表示采用字体默认ascent
+  - applyHeightToLastDescent：是否将计算完的行高应用到最后一行（自动换行后的最后一行）的descent上，逻辑同上。
+  - 左侧：applyHeightToFirstAscent=false, applyHeightToLastDescent=true，右侧true, true
+  - <img width="505" height="194" alt="image" src="https://github.com/user-attachments/assets/44ef19e7-dec5-449b-b111-7edf8937cfe3" />
+  - 左侧：applyHeightToFirstAscent=true, applyHeightToLastDescent=false，右侧true, true
+  - <img width="504" height="193" alt="image" src="https://github.com/user-attachments/assets/779e8f40-38bc-4fb0-8676-1bf6b0ad6c2f" />
   - leadingDistribution：行距，枚举值，两行文字基线距离减去字号对应的字体高度后，剩余的高度（例如基线距离是12磅，字高是10磅，那么leading就是2磅）
     - TextLeadingDistribution.proportional：将文本的[leading]**按比例**分配到文本的 ascent 和 descent，以适应字体的上升下降比例。默认计算方式是：TextStyle.height * TextStyle.fontSize - TextStyle.fontSize，如果没有设置 TextStyle.height，则使用字体内部默认的leading
     - TextLeadingDistribution.even：将文本的[leading]**均匀地**分配到文本的 ascent 和 descent，如果 TextStyle.height 设置的比1.0小，那么leading将会是负值，即两行文字有重叠。even 是 CSS 常用处理方式。
+    - textHeightBehavior里的leadingDistribution没有试出效果，下图是**TextStyle里的leadingDistribution试出的效果**，左侧：proportional，右侧：even
+    - <img width="512" height="311" alt="image" src="https://github.com/user-attachments/assets/591deeb5-c739-42cb-b637-7d267098761e" />
+- selectionColor：文本被选中时的颜色，试了Text组件是不能选择文本的，下图是**SelectableText试出的结果**
+  - <img width="287" height="189" alt="image" src="https://github.com/user-attachments/assets/7ddc15ac-8573-43ad-ba5c-7037b080114f" />
 
 
 ```dart
