@@ -32,7 +32,11 @@
   - TextWidthBasis.longestLine：表示以最长的行的宽度作为基准，即只占这么宽（自动换行后的一行也算一行）
   - TextWidthBasis.parent：则是多行文本时（即文本长度足以自动换行时）宽度占满父布局宽度，然后自动换行；单行文本时（即文本长度不足以自动换行时）宽度包裹内容
   - <img width="506" height="309" alt="image" src="https://github.com/user-attachments/assets/947a9d8f-eea5-4846-a4e2-97d473e85dee" />
-
+- textHeightBehavior：定义如何在文本上方和下方应用[TextStyle.height]。
+  - applyHeightToFirstAscent 和 applyHeightToLastDescent：默认true，表示 TextStyle.height 包含 ascent 和 descent，文字将按照常规方式绘制
+  - leadingDistribution：行距，枚举值，两行文字基线距离减去字号对应的字体高度后，剩余的高度（例如基线距离是12磅，字高是10磅，那么leading就是2磅）
+    - TextLeadingDistribution.proportional：将文本的[leading]**按比例**分配到文本的 ascent 和 descent，以适应字体的上升下降比例。默认计算方式是：TextStyle.height * TextStyle.fontSize - TextStyle.fontSize，如果没有设置 TextStyle.height，则使用字体内部默认的leading
+    - TextLeadingDistribution.even：将文本的[leading]**均匀地**分配到文本的 ascent 和 descent，如果 TextStyle.height 设置的比1.0小，那么leading将会是负值，即两行文字有重叠。even 是 CSS 常用处理方式。
 
 
 ```dart
