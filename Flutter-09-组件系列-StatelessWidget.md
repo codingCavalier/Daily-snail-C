@@ -47,7 +47,6 @@
 - selectionColor：文本被选中时的颜色，试了Text组件是不能选择文本的，下图是**SelectableText试出的结果**
   - <img width="287" height="189" alt="image" src="https://github.com/user-attachments/assets/7ddc15ac-8573-43ad-ba5c-7037b080114f" />
 
-
 ```dart
 /// StrutStyle 问题代码
 Container( // 情况A
@@ -91,7 +90,19 @@ Container( // 情况D
 #### 图标Icon
 - 继承自StatelessWidget，是最常用的组件之一
 - Icon(Icons.holiday_village, color: Colors.green, size: 100)
-- 
+- icon：IconData类型，例如Icons.abc
+- size：尺寸大小，默认24
+- color：填充的颜色
+- shadows：阴影，支持多个阴影叠加，注意阴影的上下层顺序
+- textDirection：绘制方向，枚举值，例如TextDirection.rtl，表示从右往左画，因为有些图标支持反向绘制，比如Icons.arrow_back这个箭头
+- ltr方向画（原图）：
+- <img width="80" height="81" alt="image" src="https://github.com/user-attachments/assets/0401d0f0-27ed-4fe4-8b15-d475f0de1114" />
+- rtl方向画：
+- <img width="106" height="88" alt="image" src="https://github.com/user-attachments/assets/0b6603c1-8cfa-4ead-840e-dd65026cf614" />
+
+
+- applyTextScaling：当您有一个与文本关联的图标时，这特别有用，true表示使用文本的TextScaler参数来缩放图标，使得图标的视觉效果和文本大小一致
+- blendMode
 
 #### 容器Container
 - 继承自StatelessWidget，是最常用的组件之一
