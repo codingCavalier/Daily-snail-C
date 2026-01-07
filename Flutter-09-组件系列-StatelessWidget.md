@@ -11,12 +11,53 @@
   - 注意：
     - StrutStyle.height：表示一个倍数，用于乘上原行高计算新行高
     - 默认行高的计算：TextStyle.fontSize * 1.25，印刷业惯例，https://zhuanlan.zhihu.com/p/696502299
-    - 实际行高的计算：(StrutStyle.fontSize 或 默认行高) * StrutStyle.height
+    - 实际行高的计算：(StrutStyle.fontSize 或 默认行高) * StrutStyle.height，其实比这个要复杂，具体逻辑还没搞清楚，有知道的朋友可以留言解释一下。
     - 如果StrutStyle设置了fontSize和height，那么行高会选择从它们的乘积，与默认行高，中最大的值，去设置。
       - 比如默认行高20 * 1.25 = 25，但是StrutStyle设置的行高是20 * 1 = 20，那么实际行高还是25，不会采用20
     - 如果StrutStyle没有设置fontSize但是设置了height，那么行高是默认行高和height的乘积。
     - 下图：左侧行高是10 * 1.25 * 2.0 = 25.0，右侧行高是20 * 1.0 = 20.0
     - <img width="291" height="293" alt="image" src="https://github.com/user-attachments/assets/0f69544d-218b-4a1c-9fce-8123ae1f8978" />
+  - 有个问题：代码如下，情况ABC渲染效果相同，但是情况D渲染效果和ABC不同，有知道的朋友可以留言解释一下。
+  - <img width="496" height="289" alt="image" src="https://github.com/user-attachments/assets/83bd7849-4930-44a0-8e41-f98cbd1c49a7" />
+
+```dart
+Container( // 情况A
+  alignment: Alignment.center,
+  child: Text(
+    "你好\nHello",
+    style: TextStyle(backgroundColor: Colors.deepOrange, fontSize: 50.0), // 1.25倍行距
+    strutStyle: StrutStyle(fontSize: 9, height: 4.0),
+    textAlign: TextAlign.start,
+  ),
+),
+Container( // 情况B
+  alignment: Alignment.center,
+  child: Text(
+    "你好\nHello",
+    style: TextStyle(backgroundColor: Colors.deepOrange, fontSize: 50.0), // 1.25倍行距
+    strutStyle: StrutStyle(fontSize: 14, height: 2.8),
+    textAlign: TextAlign.start,
+  ),
+),
+Container( // 情况C
+  alignment: Alignment.center,
+  child: Text(
+    "你好\nHello",
+    style: TextStyle(backgroundColor: Colors.deepOrange, fontSize: 50.0), // 1.25倍行距
+    strutStyle: StrutStyle(fontSize: 22, height: 2.0),
+    textAlign: TextAlign.start,
+  ),
+),
+Container( // 情况D
+  alignment: Alignment.center,
+  child: Text(
+    "你好\nHello",
+    style: TextStyle(backgroundColor: Colors.deepOrange, fontSize: 50.0), // 1.25倍行距
+    strutStyle: StrutStyle(fontSize: 10, height: 4.0),
+    textAlign: TextAlign.start,
+  ),
+),
+```
 
 #### 图标Icon
 - 继承自StatelessWidget，是最常用的组件之一
