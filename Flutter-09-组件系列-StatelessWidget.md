@@ -87,6 +87,38 @@ Container( // 情况D
 ),
 ```
 
+#### 富文本TextSpan
+- <img width="373" height="53" alt="image" src="https://github.com/user-attachments/assets/55b89bba-42d2-41f2-8fc6-6ee9a1a00425" />
+
+```dart
+Text.rich(
+  TextSpan(
+    children: <TextSpan>[
+      TextSpan(
+        text: '红色文本 ',
+        style: TextStyle(color: Colors.red, fontSize: 20),
+      ),
+      TextSpan(
+        text: '蓝色加粗',
+        style: TextStyle(
+          color: Colors.blue,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      TextSpan(
+        text: ' 斜体绿色',
+        style: TextStyle(
+          color: Colors.green,
+          fontSize: 20,
+          fontStyle: FontStyle.italic,
+        ),
+      ),
+    ],
+  ),
+)
+```
+
 #### 图标Icon
 - 继承自StatelessWidget，是最常用的组件之一
 - Icon(Icons.holiday_village, color: Colors.green, size: 100)
@@ -95,14 +127,44 @@ Container( // 情况D
 - color：填充的颜色
 - shadows：阴影，支持多个阴影叠加，注意阴影的上下层顺序
 - textDirection：绘制方向，枚举值，例如TextDirection.rtl，表示从右往左画，因为有些图标支持反向绘制，比如Icons.arrow_back这个箭头
-- ltr方向画（原图）：
-- <img width="80" height="81" alt="image" src="https://github.com/user-attachments/assets/0401d0f0-27ed-4fe4-8b15-d475f0de1114" />
-- rtl方向画：
-- <img width="106" height="88" alt="image" src="https://github.com/user-attachments/assets/0b6603c1-8cfa-4ead-840e-dd65026cf614" />
-
-
+  - ltr方向画（原图）：
+  - <img width="80" height="81" alt="image" src="https://github.com/user-attachments/assets/0401d0f0-27ed-4fe4-8b15-d475f0de1114" />
+  - rtl方向画：
+  - <img width="106" height="88" alt="image" src="https://github.com/user-attachments/assets/0b6603c1-8cfa-4ead-840e-dd65026cf614" />
 - applyTextScaling：当您有一个与文本关联的图标时，这特别有用，true表示使用文本的TextScaler参数来缩放图标，使得图标的视觉效果和文本大小一致
-- blendMode
+- blendMode：icon与颜色的混合模式，默认是srcOver
+- fontWeight：画笔粗细，例如加粗：FontWeight.bold
+  - <img width="274" height="174" alt="image" src="https://github.com/user-attachments/assets/e5aa76bd-8a22-4d22-8820-4facc04ce7a0" />
+
+#### 图片Image
+- assets本地资源
+  - 图片一般放在和lib平级的assets文件夹下，如/assets/images/logo.png
+  - 加载：Image.asset('assets/images/logo.png', width: 100, height: 100, fit: BoxFit.contain)
+  - frameBuilder：当图像加载完成时的回调，可以用于创建进入动画（见下方代码）
+  - errorBuilder：当图像加载失败时的回调，可以用于创建错误提示的组件
+  - scale：缩放比例，假如是2.0，则1个设备无关像素对应着原图里的4个像素，相当于是缩小成了原图的1/4大小
+  - width/height：图像将被加载成的宽高尺寸
+  - color：用于和原图里每个像素点做混合的颜色，混合模式使用colorBlendMode
+  - opacity：透明度
+  - colorBlendMode：颜色混合模式
+  - fit：图片拉伸方式，枚举值
+    - BoxFit.fill：拉伸填充，类似于安卓里的fitXY
+    - BoxFit.contain：安卓里的fitCenter
+    - BoxFit.cover：安卓里的centerCrop
+    - BoxFit.fitWidth：宽充满，高溢出
+    - BoxFit.fitHeight：高充满，宽溢出
+    - BoxFit.none：安卓里的center，即居中且不做任何缩放
+  - alignment：图片在画布上的对齐方式，比如width x height是350 x 350，图片本身是300 x 300，且没有缩放，则会体现出对齐方式的效果
+  - repeat：填充方式，枚举值
+    - ImageRepeat.noRepeat：原样画
+    - ImageRepeat.repeatX：横向重复
+    - ImageRepeat.repeatY：纵向重复
+    - ImageRepeat.repeat：两个方向都重复
+  - centerSlice：Rect类型，用于指定9patch图的内容区域（中心切片），中心切片上方和下方的图像区域将仅水平拉伸，中心切片左侧和右侧的图像区域仅垂直拉伸。
+  - matchTextDirection：是否跟随文本的ltr或者rtl
+  - gaplessPlayback：在加载新图片时，是否仍旧展示着旧图片，默认值是false
+  - isAntiAlias：是否抗锯齿
+  - filterQuality：渲染质量，枚举值，默认是FilterQuality.medium
 
 #### 容器Container
 - 继承自StatelessWidget，是最常用的组件之一
