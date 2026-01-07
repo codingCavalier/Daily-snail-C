@@ -19,8 +19,24 @@
     - <img width="291" height="293" alt="image" src="https://github.com/user-attachments/assets/0f69544d-218b-4a1c-9fce-8123ae1f8978" />
   - 有个问题：代码如下，情况ABC渲染效果相同，但是情况D渲染效果和ABC不同，有知道的朋友可以留言解释一下。
   - <img width="496" height="289" alt="image" src="https://github.com/user-attachments/assets/83bd7849-4930-44a0-8e41-f98cbd1c49a7" />
+- textAlign：文本对齐，枚举值，例如 TextAlign.end 是右对齐（当 textDirection 是 TextDirection.ltr 时）
+- textDirection：文本方向，枚举值，例如 TextDirection.rtl 是从右向左
+- locale：语言，值的类型是 Locale，如 Locale('zh', 'CN') 表示中文，zh是语言代码，CN是国家代码
+- softWrap：是否换行，true 表示自动换行
+- overflow：溢出处理，枚举值，例如 TextOverflow.ellipsis 是添加省略号处理
+- textScaler：字体大小缩放，TextScaler.noScaling 是不缩放，TextScaler.linear(0.5) 是缩小到0.5倍
+- maxLines：最大行数，值是数字
+- semanticsLabel：语义标签，用于解释原文本的内容是什么意思，猜测用于Web的情况比较多
+- semanticsIdentifier：语义标签唯一ID，该ID可以通过自动化工具识别，而不依赖于文本的实际内容，这些内容在本质上可能是动态的。
+- textWidthBasis：文本宽度基准，枚举值
+  - TextWidthBasis.longestLine：表示以最长的行的宽度作为基准，即只占这么宽（自动换行后的一行也算一行）
+  - TextWidthBasis.parent：则是多行文本时（即文本长度足以自动换行时）宽度占满父布局宽度，然后自动换行；单行文本时（即文本长度不足以自动换行时）宽度包裹内容
+  - <img width="506" height="309" alt="image" src="https://github.com/user-attachments/assets/947a9d8f-eea5-4846-a4e2-97d473e85dee" />
+
+
 
 ```dart
+/// StrutStyle 问题代码
 Container( // 情况A
   alignment: Alignment.center,
   child: Text(
