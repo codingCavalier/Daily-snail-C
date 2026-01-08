@@ -140,7 +140,7 @@ Text.rich(
 - assets本地资源
   - 图片一般放在和lib平级的assets文件夹下，如/assets/images/logo.png
   - 加载：Image.asset('assets/images/logo.png', width: 100, height: 100, fit: BoxFit.contain)
-  - frameBuilder：当图像加载完成时的回调，可以用于创建进入动画（见下方代码）
+  - frameBuilder：当图像加载完成时的回调，可以用于创建进入动画（**见下方代码**）
   - errorBuilder：当图像加载失败时的回调，可以用于创建错误提示的组件
   - scale：缩放比例，假如是2.0，则1个设备无关像素对应着原图里的4个像素，相当于是缩小成了原图的1/4大小
   - width/height：图像将被加载成的宽高尺寸
@@ -154,7 +154,7 @@ Text.rich(
     - BoxFit.fitWidth：宽充满，高溢出
     - BoxFit.fitHeight：高充满，宽溢出
     - BoxFit.none：安卓里的center，即居中且不做任何缩放
-  - alignment：图片在画布上的对齐方式，比如width x height是350 x 350，图片本身是300 x 300，且没有缩放，则会体现出对齐方式的效果
+  - alignment：图片在画布上的对齐方式，比如上述width x height是350 x 350，图片本身是300 x 300，且没有缩放，则会体现出对齐方式的效果
   - repeat：填充方式，枚举值
     - ImageRepeat.noRepeat：原样画
     - ImageRepeat.repeatX：横向重复
@@ -165,6 +165,55 @@ Text.rich(
   - gaplessPlayback：在加载新图片时，是否仍旧展示着旧图片，默认值是false
   - isAntiAlias：是否抗锯齿
   - filterQuality：渲染质量，枚举值，默认是FilterQuality.medium
+ 
+```dart
+frameBuilder 创建淡入动画
+
+/// 下面是frameBuilder
+frameBuilder: (BuildContext context, Widget child, int? frame, bool? wasSynchronouslyLoaded) {
+  return BasicFadeIn(isVisible: true, durationMills: 300, child: child);
+},
+
+/// 下面是淡入动画
+class BasicFadeIn extends StatefulWidget {
+  final bool isVisible;
+  final int durationMills;
+  final Widget child;
+
+  const BasicFadeIn({super.key, required this.isVisible, required this.durationMills, required this.child});
+
+  @override
+  BasicFadeInState createState() => BasicFadeInState();
+}
+
+class BasicFadeInState extends State<BasicFadeIn> {
+  double _opacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _opacity = widget.isVisible ? 0.0 : 1.0;
+    // 组件初始化后开始淡入
+    Future.delayed(Duration(milliseconds: 300), () {
+      if (mounted) {
+        setState(() {
+          _opacity = widget.isVisible ? 1.0 : 0.0;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      duration: Duration(milliseconds: widget.durationMills),
+      opacity: _opacity,
+      child: widget.child,
+    );
+  }
+}
+
+```
 
 #### 容器Container
 - 继承自StatelessWidget，是最常用的组件之一
