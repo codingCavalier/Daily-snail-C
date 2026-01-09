@@ -10,7 +10,7 @@
 - 使用步骤：
   - 1. AndroidManifest.xml 中定义，属于四大组件之一，ContentProvider
   - 2. 创建 filepaths.xml 文件，在 res/xml/ 目录下
-    - 举例：<files-path name="myfiles" path="images/" />
+    - 举例：`<files-path name="myfiles" path="images/" />`
       - 表示定义一个允许授权外部访问的目录，对应 context.filesDir 的值，即 data/data/应用包名/files/ 目录
       - path="images/"：表示 只能访问这个目录下的 images/ 目录下的文件
       - name="myfiles"：表示 path 目录 images/ 对应的别名叫 myfiles，那么文件`data/data/应用包名/files/images/abc.txt`实际对方应用看到的路径是`content://com.example.mydemo.fileprovider/myfiles/abc.txt`
