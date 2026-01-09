@@ -8,17 +8,17 @@
   - 再比如从QQ分享图片到微信，也是这个道理，微信要读取一个文件uri，就需要这个uri已经被授权了，否则微信无权读取
   - 但是在微信里选择分享图片给好友，打开微信自己的图片选择器，这里可能使用的是 MediaStore 查询媒体数据库，此时不涉及FileProvider，因为不涉及跨应用。（安卓9及以下需要读取存储卡权限，安卓10-12 MediaStore查询媒体不需要权限，安卓13开始细化权限分图片视频音频，如READ_MEDIA_IMAGES）
 - 使用步骤：
-  - 1. AndroidManifest.xml 中定义，属于四大组件之一，ContentProvider
-  - 2. 创建 filepaths.xml 文件，在 res/xml/ 目录下
+  - AndroidManifest.xml 中定义，属于四大组件之一，ContentProvider
+  - 创建 filepaths.xml 文件，在 res/xml/ 目录下
     - 举例：`<files-path name="myfiles" path="images/" />`
       - 表示定义一个允许授权外部访问的目录，对应 context.filesDir 的值，即 data/data/应用包名/files/ 目录
       - path="images/"：表示 只能访问这个目录下的 images/ 目录下的文件
       - name="myfiles"：表示 path 目录 images/ 对应的别名叫 myfiles，那么文件`data/data/应用包名/files/images/abc.txt`实际对方应用看到的路径是`content://com.example.mydemo.fileprovider/myfiles/abc.txt`
       - 如果 path="."：表示 允许访问这个目录下的所有文件，即 data/data/应用包名/files/ 下的所有文件
-  - 3. 获取uri：val uri = FileProvider.getUriForFile(context, context.packageName + ".fileprovider", file)
-  - 4. 给uri授权：例如授权给`com.example.aaaa`这个包名的应用访问uri的权限，权限包括读和写，context.grantUriPermission("com.example.aaaa", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-  - 5. 通过Intent传递出去：putExtra("shareUri", uri)
-  - 6. 在`com.example.aaaa`这个包名的应用中使用uri：contentResolver.openInputStream(intent.getParcelableExtra<Uri>("shareUri")).use { ...读取uri所指向文件里的内容... }
+  - 获取uri：val uri = FileProvider.getUriForFile(context, context.packageName + ".fileprovider", file)
+  - 给uri授权：例如授权给`com.example.aaaa`这个包名的应用访问uri的权限，权限包括读和写，context.grantUriPermission("com.example.aaaa", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+  - 通过Intent传递出去：putExtra("shareUri", uri)
+  - 在`com.example.aaaa`这个包名的应用中使用uri：contentResolver.openInputStream(intent.getParcelableExtra<Uri>("shareUri")).use { ...读取uri所指向文件里的内容... }
 
 ```xml
 <application
